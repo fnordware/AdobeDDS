@@ -1,0 +1,3 @@
+[submodule "ext/crunch"]
+	path = ext/crunch
+	url = git://github.com/Unvanquished/crunch.git
