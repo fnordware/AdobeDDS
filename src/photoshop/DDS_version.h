@@ -42,9 +42,9 @@
 
 #define DDS_Major_Version 0
 #define DDS_Minor_Version 5
-#define DDS_Version_String "0.5b1"
+#define DDS_Version_String "0.5b2"
 #define DDS_Build_Date __DATE__
-#define DDS_Build_Date_Manual "5 September 2014"
+#define DDS_Build_Date_Manual "6 September 2014"
 #define DDS_Build_Complete_Manual "v0.5b1 - " DDS_Build_Date
 #define DDS_Copyright_Year "2014"
 #define DDS_Build_Year "2014"

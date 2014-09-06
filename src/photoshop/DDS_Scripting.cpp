@@ -46,10 +46,14 @@
 static DXT_Format KeyToFormat(OSType key)
 {
 	return	(key == formatDXT1)		?	DDS_FMT_DXT1 :
+			(key == formatDXT1A)	?	DDS_FMT_DXT1A :
 			(key == formatDXT2)		?	DDS_FMT_DXT2 :
 			(key == formatDXT3)		?	DDS_FMT_DXT3 :
 			(key == formatDXT4)		?	DDS_FMT_DXT4 :
 			(key == formatDXT5)		?	DDS_FMT_DXT5 :
+			(key == formatDXT5A)	?	DDS_FMT_DXT5A :
+			(key == format3DC)		?	DDS_FMT_3DC :
+			(key == formatDXN)		?	DDS_FMT_DXN :
 			DDS_FMT_DXT5;
 }
 
@@ -125,10 +129,14 @@ Boolean ReadScriptParamsOnWrite(GPtr globals)
 static OSType FormatToKey(DXT_Format fmt)
 {
 	return	(fmt == DDS_FMT_DXT1)	? formatDXT1 :
+			(fmt == DDS_FMT_DXT1A)	? formatDXT1A :
 			(fmt == DDS_FMT_DXT2)	? formatDXT2 :
 			(fmt == DDS_FMT_DXT3)	? formatDXT3 :
 			(fmt == DDS_FMT_DXT4)	? formatDXT4 :
 			(fmt == DDS_FMT_DXT5)	? formatDXT5 :
+			(fmt == DDS_FMT_DXT5A)	? formatDXT5A :
+			(fmt == DDS_FMT_3DC)	? format3DC :
+			(fmt == DDS_FMT_DXN)	? formatDXN :
 			formatDXT5;
 }
 

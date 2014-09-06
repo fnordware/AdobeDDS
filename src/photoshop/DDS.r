@@ -259,6 +259,10 @@ resource 'aete' (ResourceID, plugInName " dictionary", purgeable)
                 formatDXT1,
                 "DXT1 format",
                 
+                "DXT1A",
+                formatDXT1A,
+                "DXT1A format",
+                
                 "DXT2",
                 formatDXT2,
                 "DXT2 format",
@@ -274,6 +278,18 @@ resource 'aete' (ResourceID, plugInName " dictionary", purgeable)
                 "DXT5",
                 formatDXT5,
                 "DXT5 format",
+                
+                "DXT5A",
+                formatDXT5A,
+                "DXT5A format",
+                
+                "3Dc",
+                format3DC,
+                "3Dc format",
+
+                "DXN",
+                formatDXN,
+                "DXN format",
 			}
 		}
 	}

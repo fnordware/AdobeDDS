@@ -61,10 +61,15 @@
 #define typeDDSformat			'DXTn'
 
 #define formatDXT1				'DXT1'
+#define formatDXT1A				'DX1a'
 #define formatDXT2				'DXT2'
 #define formatDXT3				'DXT3'
 #define formatDXT4				'DXT4'
 #define formatDXT5				'DXT5'
+#define formatDXT5A				'DX5a'
+#define format3DC				'D3Dc'
+#define formatDXN				'DXNc'
+
 
 
 #endif // __WebP_Terminology_H__

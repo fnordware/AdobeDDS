@@ -92,16 +92,18 @@ static BOOL CALLBACK DialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARA
 				// set up the menu
 				// I prefer to do it programatically to insure that the compression types match the index
 				const char *opts[] = {	"DXT1",
+										"DXT1A",
 										"DXT2",
 										"DXT3",
 										"DXT4",
-										"DXT5" };
+										"DXT5",
+										"DXT5A",
+										"3Dc",
+										"DXN" };
 
 				HWND menu = GetDlgItem(hwndDlg, OUT_Format_Menu);
 
-				int i;
-
-				for(int i=DIALOG_FMT_DXT1; i <= DIALOG_FMT_DXT5; i++)
+				for(int i=DIALOG_FMT_DXT1; i <= DIALOG_FMT_DXN; i++)
 				{
 					SendMessage(menu,( UINT)CB_ADDSTRING, (WPARAM)wParam, (LPARAM)(LPCTSTR)opts[i] );
 					SendMessage( menu,(UINT)CB_SETITEMDATA, (WPARAM)i, (LPARAM)(DWORD)i); // this is the compresion number

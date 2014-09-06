@@ -43,8 +43,6 @@
 #include "DDS_UI.h"
 
 #include "crn_core.h"
-
-//#include "crn_data_stream_serializer.h"
 #include "crn_mipmapped_texture.h"
 
 #include <stdio.h>
@@ -561,10 +559,14 @@ static void DoOptionsStart(GPtr globals)
 		DDS_OutUI_Data params;
 		
 		params.format			= (gOptions.format == DDS_FMT_DXT1 ? DIALOG_FMT_DXT1 :
+									gOptions.format == DDS_FMT_DXT1A ? DIALOG_FMT_DXT1A :
 									gOptions.format == DDS_FMT_DXT2 ? DIALOG_FMT_DXT2 :
 									gOptions.format == DDS_FMT_DXT3 ? DIALOG_FMT_DXT3 :
 									gOptions.format == DDS_FMT_DXT4 ? DIALOG_FMT_DXT4 :
 									gOptions.format == DDS_FMT_DXT5 ? DIALOG_FMT_DXT5 :
+									gOptions.format == DDS_FMT_DXT5A ? DIALOG_FMT_DXT5A :
+									gOptions.format == DDS_FMT_3DC ? DIALOG_FMT_3DC :
+									gOptions.format == DDS_FMT_DXN ? DIALOG_FMT_DXN :
 									DIALOG_FMT_DXT5);
 
 		params.mipmap			= gOptions.mipmap;
@@ -585,10 +587,14 @@ static void DoOptionsStart(GPtr globals)
 		if(result)
 		{
 			gOptions.format			= (params.format == DIALOG_FMT_DXT1 ? DDS_FMT_DXT1 :
+										params.format == DIALOG_FMT_DXT1A ? DDS_FMT_DXT1A :
 										params.format == DIALOG_FMT_DXT2 ? DDS_FMT_DXT2 :
 										params.format == DIALOG_FMT_DXT3 ? DDS_FMT_DXT3 :
 										params.format == DIALOG_FMT_DXT4 ? DDS_FMT_DXT4 :
 										params.format == DIALOG_FMT_DXT5 ? DDS_FMT_DXT5 :
+										params.format == DIALOG_FMT_DXT5A ? DDS_FMT_DXT5A :
+										params.format == DIALOG_FMT_3DC ? DDS_FMT_3DC :
+										params.format == DIALOG_FMT_DXN ? DDS_FMT_DXN :
 										DDS_FMT_DXT5);
 
 			gOptions.mipmap			= params.mipmap;
@@ -699,6 +705,7 @@ Format_PS2Crunch(DXT_Format fmt)
 			fmt == DDS_FMT_DXT4 ? PIXEL_FMT_DXT4 :
 			fmt == DDS_FMT_DXT5 ? PIXEL_FMT_DXT5 :
 			fmt == DDS_FMT_DXT5A ? PIXEL_FMT_DXT5A :
+			fmt == DDS_FMT_3DC ? PIXEL_FMT_3DC :
 			fmt == DDS_FMT_DXN ? PIXEL_FMT_DXN :
 			fmt == DDS_FMT_DXT5_CCxY ? PIXEL_FMT_DXT5_CCxY :
 			fmt == DDS_FMT_DXT5_xGxR ? PIXEL_FMT_DXT5_xGxR :
@@ -803,12 +810,9 @@ static void DoWriteStart(GPtr globals)
 			dds_file.generate_mipmaps(mipmap_p, false);
 		}
 
-		if(gOptions.format != DXT_FMT_DEFAULT)
-		{
-			crnlib::dxt_image::pack_params pack_p;
+		crnlib::dxt_image::pack_params pack_p;
 
-			dds_file.convert(Format_PS2Crunch(gOptions.format), pack_p);
-		}
+		dds_file.convert(Format_PS2Crunch(gOptions.format), pack_p);
 
 
 		const crnlib::data_stream::attribs_t readwrite = crnlib::cDataStreamReadable |
