@@ -48,6 +48,10 @@
 #include <stdio.h>
 #include <assert.h>
 
+#ifdef __PIMac__
+#include <mach/mach.h>
+#endif
+
 //using namespace crnlib;
 
 // globals needed by a bunch of Photoshop SDK routines
@@ -567,6 +571,7 @@ static void DoOptionsStart(GPtr globals)
 									gOptions.format == DDS_FMT_DXT5A ? DIALOG_FMT_DXT5A :
 									gOptions.format == DDS_FMT_3DC ? DIALOG_FMT_3DC :
 									gOptions.format == DDS_FMT_DXN ? DIALOG_FMT_DXN :
+									gOptions.format == DDS_FMT_UNCOMPRESSED ? DIALOG_FMT_UNCOMPRESSED :
 									DIALOG_FMT_DXT5);
 
 		params.mipmap			= gOptions.mipmap;
@@ -595,6 +600,7 @@ static void DoOptionsStart(GPtr globals)
 										params.format == DIALOG_FMT_DXT5A ? DDS_FMT_DXT5A :
 										params.format == DIALOG_FMT_3DC ? DDS_FMT_3DC :
 										params.format == DIALOG_FMT_DXN ? DDS_FMT_DXN :
+										params.format == DIALOG_FMT_UNCOMPRESSED ? DDS_FMT_UNCOMPRESSED :
 										DDS_FMT_DXT5);
 
 			gOptions.mipmap			= params.mipmap;
@@ -714,6 +720,46 @@ Format_PS2Crunch(DXT_Format fmt)
 			PIXEL_FMT_DXT5);
 }
 
+static bool crunch_progress(crnlib::uint percentage_complete, void* pUser_data_ptr)
+{
+	GPtr globals = static_cast<GPtr>(pUser_data_ptr);
+
+	PIUpdateProgress(percentage_complete, 100);
+
+	gResult = TestAbort();
+
+	return (gResult == noErr);
+}
+
+static unsigned int GetNumCPUs()
+{
+	static unsigned int cpus = 0;
+
+	if(cpus == 0)
+	{
+#ifdef __PIMac__
+		// get number of CPUs using Mach calls
+		host_basic_info_data_t hostInfo;
+		mach_msg_type_number_t infoCount;
+		
+		infoCount = HOST_BASIC_INFO_COUNT;
+		host_info(mach_host_self(), HOST_BASIC_INFO, 
+				  (host_info_t)&hostInfo, &infoCount);
+		
+		cpus = hostInfo.max_cpus;
+#else // WIN_ENV
+		SYSTEM_INFO systemInfo;
+		GetSystemInfo(&systemInfo);
+
+		cpus = systemInfo.dwNumberOfProcessors;
+#endif
+
+		if(cpus == 0)
+			cpus = 1;
+	}
+
+	return cpus;
+}
 
 static void DoWriteStart(GPtr globals)
 {
@@ -809,10 +855,17 @@ static void DoWriteStart(GPtr globals)
 
 			dds_file.generate_mipmaps(mipmap_p, false);
 		}
+		
+		if(gOptions.format != DDS_FMT_UNCOMPRESSED)
+		{
+			crnlib::dxt_image::pack_params pack_p;
 
-		crnlib::dxt_image::pack_params pack_p;
+			pack_p.m_num_helper_threads = GetNumCPUs();
+			pack_p.m_pProgress_callback = crunch_progress;
+			pack_p.m_pProgress_callback_user_data_ptr = globals;
 
-		dds_file.convert(Format_PS2Crunch(gOptions.format), pack_p);
+			dds_file.convert(Format_PS2Crunch(gOptions.format), pack_p);
+		}
 
 
 		const crnlib::data_stream::attribs_t readwrite = crnlib::cDataStreamReadable |

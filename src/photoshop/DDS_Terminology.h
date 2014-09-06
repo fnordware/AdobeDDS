@@ -69,6 +69,7 @@
 #define formatDXT5A				'DX5a'
 #define format3DC				'D3Dc'
 #define formatDXN				'DXNc'
+#define formatUncompressed		'DXun'
 
 
 

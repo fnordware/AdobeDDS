@@ -290,6 +290,10 @@ resource 'aete' (ResourceID, plugInName " dictionary", purgeable)
                 "DXN",
                 formatDXN,
                 "DXN format",
+
+                "Uncompressed",
+                formatUncompressed,
+                "Uncompressed format",
 			}
 		}
 	}

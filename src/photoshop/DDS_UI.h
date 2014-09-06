@@ -49,7 +49,8 @@ typedef enum {
 	DIALOG_FMT_DXT5,
 	DIALOG_FMT_DXT5A,
 	DIALOG_FMT_3DC,
-	DIALOG_FMT_DXN
+	DIALOG_FMT_DXN,
+	DIALOG_FMT_UNCOMPRESSED
 } DialogFormat;
 
 typedef enum {
