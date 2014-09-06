@@ -142,14 +142,14 @@ resource 'PiPL' (ResourceID, plugInName " PiPL", purgeable)
 					  fmtCanWriteIfRead, 
 					  fmtCanWriteTransparency,
 					  fmtCannotCreateThumbnail },
-		PlugInMaxSize { 16384, 16384 },
-		FormatMaxSize { { 16384, 16384 } },
+		PlugInMaxSize { 8192, 8192 },
+		FormatMaxSize { { 8192, 8192 } },
 		FormatMaxChannels { {   0, 0, 0, 5, 0, 0, 
 							   0, 0, 0, 0, 0, 0 } },
-		FormatICCFlags { 	iccCanEmbedGray,
-							iccCanEmbedIndexed,
-							iccCanEmbedRGB,
-							iccCannotEmbedCMYK },
+		//FormatICCFlags { 	iccCanEmbedGray,
+		//					iccCanEmbedIndexed,
+		//					iccCanEmbedRGB,
+		//					iccCannotEmbedCMYK },
 		},
 	};
 
@@ -216,41 +216,23 @@ resource 'aete' (ResourceID, plugInName " dictionary", purgeable)
 				"parent class format",						/* optional description */
 				flagsSingleProperty,						/* if properties, list below */
 							
-				"Lossless",
-				keyWebPlossless,
-				typeBoolean,
-				"WebP lossless compression used",
+				"DDS Format",
+				keyDDSformat,
+				typeEnumerated,
+				"DDS compression format",
 				flagsSingleProperty,
 				
-				"Quality",
-				keyWebPquality,
-				typeInteger,
-				"WebP compression quality",
+				"Mipmap",
+				keyDDSmipmap,
+				typeBoolean,
+				"Create Mipmaps",
 				flagsSingleProperty,
 				
 				"Alpha Channel",
-				keyWebPalpha,
+				keyDDSalpha,
 				typeEnumerated,
 				"Source of the alpha channel",
 				flagsSingleProperty,
-
-				"Lossy Alpha",
-				keyWebPlossyAlpha,
-				typeBoolean,
-				"Compress with lossy alpha channel",
-				flagsSingleProperty,
-
-				"Alpha Cleanup",
-				keyWebPalphaCleanup,
-				typeBoolean,
-				"Clean transparent areas of alpha channel",
-				flagsSingleProperty,
-
-				"Save Metadata",
-				keyWebPsaveMetadata,
-				typeBoolean,
-				"Save ICC profile, EXIF, and XMP",
-				flagsSingleProperty
 			},
 			{}, /* elements (not supported) */
 			/* class descriptions */
@@ -270,6 +252,28 @@ resource 'aete' (ResourceID, plugInName " dictionary", purgeable)
                 "Channel",
                 alphaChannelChannel,
                 "Get alpha from channels palette"
+			},
+			typeDDSformat,
+			{
+                "DXT1",
+                formatDXT1,
+                "DXT1 format",
+                
+                "DXT2",
+                formatDXT2,
+                "DXT2 format",
+                
+                "DXT3",
+                formatDXT3,
+                "DXT3 format",
+                
+                "DXT4",
+                formatDXT4,
+                "DXT4 format",
+                
+                "DXT5",
+                formatDXT5,
+                "DXT5 format",
 			}
 		}
 	}

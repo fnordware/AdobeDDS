@@ -48,18 +48,23 @@
 //	Definitions -- Scripting keys
 //-------------------------------------------------------------------------------
 
-#define keyWebPlossless			'WebL'
-#define keyWebPquality			'WebQ'
-#define keyWebPalpha			'WebA'
-#define keyWebPlossyAlpha		'WelA'
-#define keyWebPalphaCleanup		'WebC'
-#define keyWebPsaveMetadata		'WebM'
+#define keyDDSformat			'DDSf'
+#define keyDDSmipmap			'DDSm'
+#define keyDDSalpha				'DDSa'
 
 #define typeAlphaChannel		'alfT'
 
 #define alphaChannelNone		'alfN'
 #define alphaChannelTransparency 'alfT'
 #define alphaChannelChannel		'alfC'
+
+#define typeDDSformat			'DXTn'
+
+#define formatDXT1				'DXT1'
+#define formatDXT2				'DXT2'
+#define formatDXT3				'DXT3'
+#define formatDXT4				'DXT4'
+#define formatDXT5				'DXT5'
 
 
 #endif // __WebP_Terminology_H__

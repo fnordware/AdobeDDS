@@ -49,26 +49,43 @@
 
 
 enum {
+	DDS_FMT_DXT1 = 0,
+	DDS_FMT_DXT1A,
+	DDS_FMT_DXT2,
+	DDS_FMT_DXT3,
+	DDS_FMT_DXT4,
+	DDS_FMT_DXT5,
+	DDS_FMT_DXT5A,
+	DDS_FMT_DXN,
+	DDS_FMT_DXT5_CCxY,
+	DDS_FMT_DXT5_xGxR,
+	DDS_FMT_DXT5_xGBR,
+	DDS_FMT_DXT5_AGBR
+};
+typedef uint8 DXT_Format;
+
+#define DXT_FMT_DEFAULT DDS_FMT_DXT5
+
+enum {
 	DDS_ALPHA_NONE = 0,
 	DDS_ALPHA_TRANSPARENCY,
 	DDS_ALPHA_CHANNEL
 };
 typedef uint8 DDS_Alpha;
 
+
 typedef struct {
 	DDS_Alpha	alpha;
-	Boolean		mult;
+	uint8		reserved[31];
 	
 } DDS_inData;
 
+
 typedef struct {
-	Boolean			lossless;
-	uint8			quality;
+	DXT_Format		format;
 	DDS_Alpha		alpha;
-	Boolean			lossy_alpha;
-	Boolean			alpha_cleanup;
-	Boolean			save_metadata;
-	uint8			reserved[250];
+	Boolean			mipmap;
+	uint8			reserved[252];
 	
 } DDS_outData;
 
@@ -79,10 +96,10 @@ typedef struct Globals
 	short				*result;			// Must always be first in Globals.
 	FormatRecord		*formatParamBlock;	// Must always be second in Globals.
 
-	Handle				fileH;				// stores the entire binary file
+	//Handle				fileH;				// stores the entire binary file
 	
 	DDS_inData			in_options;
-	DDS_outData		options;
+	DDS_outData			options;
 	
 } Globals, *GPtr, **GHdl;				// *GPtr = global pointer; **GHdl = global handle
 
@@ -115,11 +132,6 @@ typedef void (* FProc)(GPtr globals);
 // Everything comes in and out of PluginMain. It must be first routine in source:
 DLLExport MACPASCAL void PluginMain (const short selector,
 					  	             FormatRecord *formatParamBlock,
-						             intptr_t *data,
-						             short *result);
-
-DLLExport MACPASCAL void ExPluginMain (const short selector,
-						             ExportRecord *exportParamBlock,
 						             intptr_t *data,
 						             short *result);
 

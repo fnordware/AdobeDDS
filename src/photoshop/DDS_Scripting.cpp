@@ -43,6 +43,16 @@
 #include "DDS_Terminology.h"
 
 
+static DXT_Format KeyToFormat(OSType key)
+{
+	return	(key == formatDXT1)		?	DDS_FMT_DXT1 :
+			(key == formatDXT2)		?	DDS_FMT_DXT2 :
+			(key == formatDXT3)		?	DDS_FMT_DXT3 :
+			(key == formatDXT4)		?	DDS_FMT_DXT4 :
+			(key == formatDXT5)		?	DDS_FMT_DXT5 :
+			DDS_FMT_DXT5;
+}
+
 static DDS_Alpha KeyToAlpha(OSType key)
 {
 	return	(key == alphaChannelNone)			? DDS_ALPHA_NONE :
@@ -74,36 +84,21 @@ Boolean ReadScriptParamsOnWrite(GPtr globals)
 			{
 				switch (key)
 				{
-/*					case keyWebPlossless:
-							PIGetBool(token, &boolStoreValue);
-							gOptions.lossless = boolStoreValue;
+					case keyDDSformat:
+							PIGetEnum(token, &ostypeStoreValue);
+							gOptions.format = KeyToFormat(ostypeStoreValue);
 							break;
 					
-					case keyWebPquality:
-							PIGetInt(token, &storeValue);
-							gOptions.quality = storeValue;
+					case keyDDSmipmap:
+							PIGetBool(token, &boolStoreValue);
+							gOptions.mipmap = boolStoreValue;
 							break;
 
-					case keyWebPalpha:
+					case keyDDSalpha:
 							PIGetEnum(token, &ostypeStoreValue);
 							gOptions.alpha = KeyToAlpha(ostypeStoreValue);
 							break;
-					
-					case keyWebPlossyAlpha:
-							PIGetBool(token, &boolStoreValue);
-							gOptions.lossy_alpha = boolStoreValue;
-							break;
-
-					case keyWebPalphaCleanup:
-							PIGetBool(token, &boolStoreValue);
-							gOptions.alpha_cleanup = boolStoreValue;
-							break;
-
-					case keyWebPsaveMetadata:
-							PIGetBool(token, &boolStoreValue);
-							gOptions.save_metadata = boolStoreValue;
-							break;
-*/				}
+				}
 			}
 
 			stickyError = CloseReader(&token); // closes & disposes.
@@ -127,6 +122,15 @@ Boolean ReadScriptParamsOnWrite(GPtr globals)
 }
 
 		
+static OSType FormatToKey(DXT_Format fmt)
+{
+	return	(fmt == DDS_FMT_DXT1)	? formatDXT1 :
+			(fmt == DDS_FMT_DXT2)	? formatDXT2 :
+			(fmt == DDS_FMT_DXT3)	? formatDXT3 :
+			(fmt == DDS_FMT_DXT4)	? formatDXT4 :
+			(fmt == DDS_FMT_DXT5)	? formatDXT5 :
+			formatDXT5;
+}
 
 static OSType AlphaToKey(DDS_Alpha alpha)
 {
@@ -146,28 +150,13 @@ OSErr WriteScriptParamsOnWrite(GPtr globals)
 		token = OpenWriter();
 		if (token)
 		{
-/*			// write keys here
-			PIPutBool(token, keyWebPlossless, gOptions.lossless);
-			
-			if(!gOptions.lossless)
-			{
-				PIPutInt(token, keyWebPquality, gOptions.quality);
-			}
+			// write keys here
+			PIPutEnum(token, keyDDSformat, typeDDSformat, FormatToKey(gOptions.format));
+
+			PIPutBool(token, keyDDSmipmap, gOptions.mipmap);
 				
-			PIPutEnum(token, keyWebPalpha, typeAlphaChannel, AlphaToKey(gOptions.alpha));
+			PIPutEnum(token, keyDDSalpha, typeAlphaChannel, AlphaToKey(gOptions.alpha));
 			
-			if(gOptions.alpha != WEBP_ALPHA_NONE)
-			{
-				PIPutBool(token, keyWebPlossyAlpha, gOptions.lossy_alpha);
-				
-				if(gOptions.alpha == WEBP_ALPHA_TRANSPARENCY)
-				{
-					PIPutBool(token, keyWebPalphaCleanup, gOptions.alpha_cleanup);
-				}
-			}
-			
-			PIPutBool(token, keyWebPsaveMetadata, gOptions.save_metadata);
-*/			
 			gotErr = CloseWriter(&token); /* closes and sets dialog optional */
 			/* done.  Now pass handle on to Photoshop */
 		}
