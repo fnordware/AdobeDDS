@@ -98,6 +98,7 @@ DDS_OutUI(
 	DDS_OutUI_Data		*params,
 	bool				have_transparency,
 	const char			*alpha_name,
+	bool				ae_ui,
 	const void			*plugHndl,
 	const void			*mwnd);
 

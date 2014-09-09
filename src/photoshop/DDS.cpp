@@ -605,7 +605,10 @@ static void DoOptionsStart(GPtr globals)
 		HWND hwnd = (HWND)((PlatformData *)gStuff->platformData)->hwnd;
 	#endif
 
-		bool result = DDS_OutUI(&params, have_transparency, alpha_name, plugHndl, hwnd);
+		const bool ae_ui = (gStuff->hostSig == 'FXTC');
+
+
+		bool result = DDS_OutUI(&params, have_transparency, alpha_name, ae_ui, plugHndl, hwnd);
 		
 		
 		if(result)

@@ -45,7 +45,7 @@
 #include <Windows.h>
 #include <commctrl.h>
 
-#include <stdio.h>
+#include <assert.h>
 
 extern HINSTANCE hDllInstance;
 
@@ -72,6 +72,8 @@ enum {
 
 #define ENABLE_ITEM(ITEM, ENABLE)	EnableWindow(GetDlgItem(hwndDlg, (ITEM)), (ENABLE));
 
+#define SHOW_ITEM(ITEM, SHOW)	ShowWindow(GetDlgItem(hwndDlg, (ITEM)), (SHOW) ? SW_SHOW : SW_HIDE)
+
 
 
 static DialogFormat			g_format = DIALOG_FMT_DXT5;
@@ -82,6 +84,7 @@ static DialogFilter			g_filter = DIALOG_FILTER_MITCHELL;
 
 static bool					g_have_transparency = false;
 static const char			*g_alpha_name = NULL;
+static bool					g_ae_ui = false;
 
 static WORD	g_item_clicked = 0;
 
@@ -120,7 +123,7 @@ static BOOL CALLBACK DialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARA
 										"DXT5A",
 										"3Dc",
 										"DXN",
-										"Uncompressed"};
+										"Uncompressed" };
 
 				HWND menu = GetDlgItem(hwndDlg, OUT_Format_Menu);
 
@@ -188,6 +191,31 @@ static BOOL CALLBACK DialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARA
 			TrackAlpha(hwndDlg);
 			TrackMipmap(hwndDlg);
 
+			if(g_ae_ui)
+			{
+				for(int i = OUT_Alpha_Radio_None; i <= OUT_Alpha_Frame; i++)
+					SHOW_ITEM(i, false);
+
+				WINDOWPLACEMENT winPlace, okPlace, cancelPlace;
+				winPlace.length = okPlace.flags = cancelPlace.length = sizeof(WINDOWPLACEMENT);
+
+				GetWindowPlacement(hwndDlg, &winPlace);
+				GetWindowPlacement(GET_ITEM(OUT_OK), &okPlace);
+				GetWindowPlacement(GET_ITEM(OUT_Cancel), &cancelPlace);
+
+				const int resize = 170;
+
+				winPlace.rcNormalPosition.bottom -= resize;
+				okPlace.rcNormalPosition.top -= resize;
+				okPlace.rcNormalPosition.bottom -= resize;
+				cancelPlace.rcNormalPosition.top -= resize;
+				cancelPlace.rcNormalPosition.bottom -= resize;
+
+				SetWindowPlacement(GET_ITEM(OUT_Cancel), &cancelPlace);
+				SetWindowPlacement(GET_ITEM(OUT_OK), &okPlace);
+				SetWindowPlacement(hwndDlg, &winPlace);
+			}
+
 			return TRUE;
  
 		case WM_NOTIFY:
@@ -245,6 +273,7 @@ DDS_OutUI(
 	DDS_OutUI_Data		*params,
 	bool				have_transparency,
 	const char			*alpha_name,
+	bool				ae_ui,
 	const void			*plugHndl,
 	const void			*mwnd)
 {
@@ -256,6 +285,14 @@ DDS_OutUI(
 	
 	g_have_transparency = have_transparency;
 	g_alpha_name = alpha_name;
+	g_ae_ui = ae_ui;
+
+	if(ae_ui)
+	{
+		g_alpha = DIALOG_ALPHA_TRANSPARENCY;
+		g_premultiply = false;
+		assert(g_alpha_name == NULL);
+	}
 
 	int status = DialogBox(hDllInstance, (LPSTR)"OUT_DIALOG", (HWND)mwnd, (DLGPROC)DialogProc);
 
