@@ -1,0 +1,76 @@
+<html>
+
+<p><i>This document originated on <a href="http://github.com/fnordware/AdobeDDS/tree/master/src">GitHub</a></i></p>
+
+<h1>Adobe DDS plug-in</h1>
+
+<p>This is a plug-in for reading and writing the <a href="http://en.wikipedia.org/wiki/DirectDraw_Surface">DirectDraw Surface (DDS)</a> format in Adobe After Effects and Photoshop. DDS uses compression formats that can be decompressed in a GPU, so the format is commonly used to store textures. It also supports other relevant features such as <a href="http://en.wikipedia.org/wiki/Mipmap">mipmaps</a>.</p>
+
+<h2>Author</h2>
+
+<p>Written by Brendan Bolles of <a href="http://www.fnordware.com/">fnord software</a>. Made possible by the sponsorship of Walter Soyka of <a href="http://www.keenlive.com/">Keen Live</a>.</p>
+
+<h2>Installation</h2>
+
+<p>Manually copy the plug-in to your host application's plug-in folder. Double-clicking the plug-in file will not install it.</p>
+
+<h2>Compression Formats</h2>
+
+Most DDS files use one of the <a href="https://en.wikipedia.org/wiki/S3_Texture_Compression">S3 Texture Compression</a> formats, commonly known as DXTn. Support for ATI's 3Dc/DXN format is also provided, as well as the option to store images uncompressed.</p>
+
+<p><table border=1>
+<tr> <td> <b>Format</b> </td> <td> <b>Channels</b> </td> <td> <b>Alpha Type</b> </td> <td> <b>Premultiplied</b> </td> </tr>
+<tr> <td> DXT1 </td> <td> RGB </td> <td> None </td> <td> N/A </td> </tr>
+<tr> <td> DXT1A </td> <td> RGBA </td> <td> 1-bit </td> <td> N/A </td> </tr>
+<tr> <td> DXT2 </td> <td> RGBA </td> <td> Explicit </td> <td> Yes </td> </tr>
+<tr> <td> DXT3 </td> <td> RGBA </td> <td> Explicit </td> <td> No </td> </tr>
+<tr> <td> DXT4 </td> <td> RGBA </td> <td> Interpolated </td> <td> Yes </td> </tr>
+<tr> <td> DXT5 </td> <td> RGBA </td> <td> Interpolated </td> <td> No </td> </tr>
+<tr> <td> DXT5A </td> <td> A </td> <td> Alpha as Luma </td> <td> N/A </td> </tr>
+<tr> <td> 3Dc </td> <td> XY </td> <td> None </td> <td> N/A </td> </tr>
+<tr> <td> DXN </td> <td> YX </td> <td> None </td> <td> N/A </td> </tr>
+<tr> <td> Uncompressed </td> <td> RGB(A) </td> <td> Uncompressed </td> <td> Undefined </td> </tr>
+</table></p>
+
+<p>The difference between the DXTn formats is how they handle alpha.  DXT2/3 are better suited for alpha channels with hard edges, while DXT4/5 are better suited for soft-edged alphas.  DXT 2 & 4 expect the RGB to be premultiplied, while DXT 3 & 5 do not.</p>
+
+<p>Managing the premultiplied state of the alpha is left up to the user.  In After Effects, you should set the output module's premultiplied state to match the format you're going to be using. In Photoshop, the plug-in provides an option to preform a premultiplication, and it is left up to the user to do use this feature where appropriate.</b>
+
+<p>DXT5A saves only the alpha channel, at high quality. 3Dc and DXN are intended for normal maps. Uncompressed storage is not supported by most applications that use DDS.</p>
+
+<h2>License</h2>
+
+<p><a href="http://opensource.org/licenses/BSD-2-Clause">BSD</a></p>
+
+<p>
+Copyright (c) 2014, Brendan Bolles
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+<br>
+<ul>
+<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+</ul>
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+</p>
+
+<p>Relies heavily on <a href="http://code.google.com/p/crunch/">crnlib</a> by Rich Geldreich, which uses the <a href="http://opensource.org/licenses/Zlib">zlib license</a>:</p>
+
+<p>
+Copyright (c) 2010-2012 Rich Geldreich and Tenacious Software LLC
+<br>
+This software is provided 'as-is', without any express or implied warranty.  In no event will the authors be held liable for any damages arising from the use of this software.
+<br>
+Permission is granted to anyone to use this software for any purpose, including commercial applications, and to alter it and redistribute it freely, subject to the following restrictions:
+<br>
+1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
+<br>
+2. Altered source versions must be plainly marked as such, and must not be misrepresented as being the original software.
+<br>
+3. This notice may not be removed or altered from any source distribution.
+</p>
+
+</html>
