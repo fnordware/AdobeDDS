@@ -43,7 +43,7 @@
 #include "DDS_Terminology.h"
 
 
-static DXT_Format KeyToFormat(OSType key)
+static DDS_Format KeyToFormat(OSType key)
 {
 	return	(key == formatDXT1)			?	DDS_FMT_DXT1 :
 			(key == formatDXT1A)		?	DDS_FMT_DXT1A :
@@ -64,6 +64,16 @@ static DDS_Alpha KeyToAlpha(OSType key)
 			(key == alphaChannelTransparency)	? DDS_ALPHA_TRANSPARENCY :
 			(key == alphaChannelChannel)		? DDS_ALPHA_CHANNEL :
 			DDS_ALPHA_TRANSPARENCY;
+}
+
+static DDS_Filter KeyToFilter(OSType key)
+{
+	return	(key == filterBox		? DDS_FILTER_BOX :
+			key == filterTent		? DDS_FILTER_TENT :
+			key == filterLanczos4	? DDS_FILTER_LANCZOS4 :
+			key == filterMitchell	? DDS_FILTER_MITCHELL :
+			key == filterKaiser		? DDS_FILTER_KAISER :
+			DDS_FILTER_MITCHELL);
 }
 
 Boolean ReadScriptParamsOnWrite(GPtr globals)
@@ -94,14 +104,24 @@ Boolean ReadScriptParamsOnWrite(GPtr globals)
 							gOptions.format = KeyToFormat(ostypeStoreValue);
 							break;
 					
+					case keyDDSalpha:
+							PIGetEnum(token, &ostypeStoreValue);
+							gOptions.alpha = KeyToAlpha(ostypeStoreValue);
+							break;
+
+					case keyDDSpremult:
+							PIGetBool(token, &boolStoreValue);
+							gOptions.premultiply = boolStoreValue;
+							break;
+
 					case keyDDSmipmap:
 							PIGetBool(token, &boolStoreValue);
 							gOptions.mipmap = boolStoreValue;
 							break;
 
-					case keyDDSalpha:
+					case keyDDSfilter:
 							PIGetEnum(token, &ostypeStoreValue);
-							gOptions.alpha = KeyToAlpha(ostypeStoreValue);
+							gOptions.filter = KeyToFilter(ostypeStoreValue);
 							break;
 				}
 			}
@@ -127,7 +147,7 @@ Boolean ReadScriptParamsOnWrite(GPtr globals)
 }
 
 		
-static OSType FormatToKey(DXT_Format fmt)
+static OSType FormatToKey(DDS_Format fmt)
 {
 	return	(fmt == DDS_FMT_DXT1)			? formatDXT1 :
 			(fmt == DDS_FMT_DXT1A)			? formatDXT1A :
@@ -150,6 +170,16 @@ static OSType AlphaToKey(DDS_Alpha alpha)
 			alphaChannelTransparency;
 }
 
+static OSType FilterToKey(DDS_Filter filter)
+{
+	return	(filter == DDS_FILTER_BOX		? filterBox :
+			filter == DDS_FILTER_TENT		? filterTent :
+			filter == DDS_FILTER_LANCZOS4	? filterLanczos4 :
+			filter == DDS_FILTER_MITCHELL	? filterMitchell :
+			filter == DDS_FILTER_KAISER		? filterKaiser :
+			filterMitchell);
+}
+
 OSErr WriteScriptParamsOnWrite(GPtr globals)
 {
 	PIWriteDescriptor			token = nil;
@@ -163,10 +193,16 @@ OSErr WriteScriptParamsOnWrite(GPtr globals)
 			// write keys here
 			PIPutEnum(token, keyDDSformat, typeDDSformat, FormatToKey(gOptions.format));
 
-			PIPutBool(token, keyDDSmipmap, gOptions.mipmap);
-				
 			PIPutEnum(token, keyDDSalpha, typeAlphaChannel, AlphaToKey(gOptions.alpha));
+
+			if(gOptions.alpha != DDS_ALPHA_NONE)
+				PIPutBool(token, keyDDSpremult, gOptions.premultiply);
 			
+			PIPutBool(token, keyDDSmipmap, gOptions.mipmap);
+
+			if(gOptions.mipmap)
+				PIPutEnum(token, keyDDSfilter, typeFilter, FilterToKey(gOptions.filter));
+				
 			gotErr = CloseWriter(&token); /* closes and sets dialog optional */
 			/* done.  Now pass handle on to Photoshop */
 		}

@@ -87,11 +87,17 @@ static void InitGlobals(Ptr globalPtr)
 	memset(&gInOptions, 0, sizeof(gInOptions));
 	memset(&gOptions, 0, sizeof(gOptions));
 	
+	strncpy(gInOptions.sig, "DDSi", 4);
+	gInOptions.version			= 1;
 	gInOptions.alpha			= DDS_ALPHA_CHANNEL;
 	
-	gOptions.format				= DXT_FMT_DEFAULT;
+	strncpy(gOptions.sig, "DDSo", 4);
+	gOptions.version			= 1;
+	gOptions.format				= DDS_FMT_DXT5;
 	gOptions.alpha				= DDS_ALPHA_CHANNEL;
+	gOptions.premultiply		= FALSE;
 	gOptions.mipmap				= FALSE;
+	gOptions.filter				= DDS_FILTER_MITCHELL;
 }
 
 
@@ -191,7 +197,12 @@ ps_data_stream::ps_data_stream(intptr_t dataFork, attribs_t attribs) :
 	crnlib::data_stream("Photoshop stream", attribs),
 	_dataFork(dataFork)
 {
-	seek(0, false);
+	if( is_writable() )
+	{
+		assert( get_ofs() == 0 );
+	}
+	else
+		seek(0, false);
 }
 
 
@@ -574,9 +585,17 @@ static void DoOptionsStart(GPtr globals)
 									gOptions.format == DDS_FMT_UNCOMPRESSED ? DIALOG_FMT_UNCOMPRESSED :
 									DIALOG_FMT_DXT5);
 
-		params.mipmap			= gOptions.mipmap;
 		params.alpha			= (DialogAlpha)gOptions.alpha;
-	
+		params.premultiply		= gOptions.premultiply;
+
+		params.mipmap			= gOptions.mipmap;
+
+		params.filter			= (gOptions.filter == DDS_FILTER_BOX ? DIALOG_FILTER_BOX :
+									gOptions.filter == DDS_FILTER_TENT ? DIALOG_FILTER_TENT :
+									gOptions.filter == DDS_FILTER_LANCZOS4 ? DIALOG_FILTER_LANCZOS4 :
+									gOptions.filter == DDS_FILTER_MITCHELL ? DIALOG_FILTER_MITCHELL :
+									gOptions.filter == DDS_FILTER_KAISER ? DIALOG_FILTER_KAISER :
+									DIALOG_FILTER_MITCHELL);
 	
 	#ifdef __PIMac__
 		const char * const plugHndl = "com.fnordware.Photoshop.WebP";
@@ -603,9 +622,19 @@ static void DoOptionsStart(GPtr globals)
 										params.format == DIALOG_FMT_UNCOMPRESSED ? DDS_FMT_UNCOMPRESSED :
 										DDS_FMT_DXT5);
 
-			gOptions.mipmap			= params.mipmap;
 			gOptions.alpha			= params.alpha;
+			gOptions.premultiply	= params.premultiply;
+
+			gOptions.mipmap			= params.mipmap;
+
+			gOptions.filter			= (params.filter == DIALOG_FILTER_BOX ? DDS_FILTER_BOX :
+										params.filter == DIALOG_FILTER_TENT ? DDS_FILTER_TENT :
+										params.filter == DIALOG_FILTER_LANCZOS4 ? DDS_FILTER_LANCZOS4 :
+										params.filter == DIALOG_FILTER_MITCHELL ? DDS_FILTER_MITCHELL :
+										params.filter == DIALOG_FILTER_KAISER ? DDS_FILTER_KAISER :
+										DDS_FILTER_MITCHELL);
 			
+
 			WriteParams(globals, &gOptions);
 			WriteScriptParamsOnWrite(globals);
 		}
@@ -700,7 +729,7 @@ static void Premultiply(RGBApixel8 *buf, int64 len)
 
 
 static inline crnlib::pixel_format
-Format_PS2Crunch(DXT_Format fmt)
+Format_PS2Crunch(DDS_Format fmt)
 {
 	using namespace crnlib;
 
@@ -830,8 +859,7 @@ static void DoWriteStart(GPtr globals)
 		gResult = ReadProc(alpha_channel->port, &scaling, &writeRect, &memDesc, &wroteRect);
 	}
 
-	if(use_transparency && (gStuff->hostSig != 'FXTC') &&
-		(gOptions.format == DDS_FMT_DXT2 || gOptions.format == DDS_FMT_DXT4))
+	if(use_alpha && gOptions.premultiply && (gStuff->hostSig != 'FXTC') && gResult == noErr)
 	{
 		RGBApixel8 *row = (RGBApixel8 *)img->get_pixels();
 
@@ -843,15 +871,23 @@ static void DoWriteStart(GPtr globals)
 		}
 	}
 	
+
+	crnlib::mipmapped_texture dds_file;
+
 	if(gResult == noErr)
 	{
-		crnlib::mipmapped_texture dds_file;
-
 		dds_file.assign(img);
 		
 		if(gOptions.mipmap)
 		{
 			crnlib::mipmapped_texture::generate_mipmap_params mipmap_p;
+
+			mipmap_p.m_pFilter = (	gOptions.filter == DDS_FILTER_BOX ? "box" :
+									gOptions.filter == DDS_FILTER_TENT ? "tent" :
+									gOptions.filter == DDS_FILTER_LANCZOS4 ? "lanczos4" :
+									gOptions.filter == DDS_FILTER_MITCHELL ? "mitchell" :
+									gOptions.filter == DDS_FILTER_KAISER ? "kaiser" :
+									"mitchell" );
 
 			dds_file.generate_mipmaps(mipmap_p, false);
 		}
@@ -863,11 +899,13 @@ static void DoWriteStart(GPtr globals)
 			pack_p.m_num_helper_threads = GetNumCPUs();
 			pack_p.m_pProgress_callback = crunch_progress;
 			pack_p.m_pProgress_callback_user_data_ptr = globals;
-
+			
 			dds_file.convert(Format_PS2Crunch(gOptions.format), pack_p);
 		}
+	}
 
-
+	if(gResult == noErr)
+	{
 		const crnlib::data_stream::attribs_t readwrite = crnlib::cDataStreamReadable |
 															crnlib::cDataStreamWritable |
 															crnlib::cDataStreamSeekable;

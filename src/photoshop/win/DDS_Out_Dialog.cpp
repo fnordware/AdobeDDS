@@ -54,10 +54,14 @@ enum {
 	OUT_OK = IDOK,
 	OUT_Cancel = IDCANCEL,
 	OUT_Format_Menu,
-	OUT_Mipmap_Radio,
+	OUT_Mipmap_Check,
+	OUT_Filter_Menu,
+	OUT_Filter_Menu_Label,
 	OUT_Alpha_Radio_None,
 	OUT_Alpha_Radio_Transparency,
 	OUT_Alpha_Radio_Channel,
+	OUT_Premultiply_Check,
+	OUT_Alpha_Frame
 };
 
 // sensible Win macros
@@ -72,13 +76,29 @@ enum {
 
 static DialogFormat			g_format = DIALOG_FMT_DXT5;
 static DialogAlpha			g_alpha = DIALOG_ALPHA_NONE;
-static bool					g_mipmap = FALSE;
+static bool					g_premultiply = false;
+static bool					g_mipmap = false;
+static DialogFilter			g_filter = DIALOG_FILTER_MITCHELL;
 
 static bool					g_have_transparency = false;
 static const char			*g_alpha_name = NULL;
 
 static WORD	g_item_clicked = 0;
 
+
+static void TrackMipmap(HWND hwndDlg)
+{
+	BOOL enable_state = GET_CHECK(OUT_Mipmap_Check);
+	ENABLE_ITEM(OUT_Filter_Menu, enable_state);
+	ENABLE_ITEM(OUT_Filter_Menu_Label, enable_state);
+}
+
+
+static void TrackAlpha(HWND hwndDlg)
+{
+	BOOL enable_state = !GET_CHECK(OUT_Alpha_Radio_None);
+	ENABLE_ITEM(OUT_Premultiply_Check, enable_state);
+}
 
 
 static BOOL CALLBACK DialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam) 
@@ -106,15 +126,33 @@ static BOOL CALLBACK DialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARA
 
 				for(int i=DIALOG_FMT_DXT1; i <= DIALOG_FMT_UNCOMPRESSED; i++)
 				{
-					SendMessage(menu,( UINT)CB_ADDSTRING, (WPARAM)wParam, (LPARAM)(LPCTSTR)opts[i] );
-					SendMessage( menu,(UINT)CB_SETITEMDATA, (WPARAM)i, (LPARAM)(DWORD)i); // this is the compresion number
+					SendMessage(menu, (UINT)CB_ADDSTRING, (WPARAM)wParam, (LPARAM)(LPCTSTR)opts[i] );
+					SendMessage(menu, (UINT)CB_SETITEMDATA, (WPARAM)i, (LPARAM)(DWORD)i); // this is the compresion number
 
 					if(i == g_format)
-						SendMessage( menu, CB_SETCURSEL, (WPARAM)i, (LPARAM)0);
+						SendMessage(menu, CB_SETCURSEL, (WPARAM)i, (LPARAM)0);
+				}
+
+
+				const char *f_opts[] = {"Box",
+										"Tent",
+										"Lanczos4",
+										"Mitchell",
+										"Kaiser" };
+
+				HWND f_menu = GetDlgItem(hwndDlg, OUT_Filter_Menu);
+
+				for(int i=DIALOG_FILTER_BOX; i <= DIALOG_FILTER_KAISER; i++)
+				{
+					SendMessage(f_menu, (UINT)CB_ADDSTRING, (WPARAM)wParam, (LPARAM)(LPCTSTR)f_opts[i] );
+					SendMessage(f_menu, (UINT)CB_SETITEMDATA, (WPARAM)i, (LPARAM)(DWORD)i); // this is the compresion number
+
+					if(i == g_filter)
+						SendMessage(f_menu, CB_SETCURSEL, (WPARAM)i, (LPARAM)0);
 				}
 			}while(0);
 
-			SendMessage(GetDlgItem(hwndDlg, OUT_Mipmap_Radio), BM_SETCHECK, (WPARAM)g_mipmap, (LPARAM)0);
+			SET_CHECK(OUT_Mipmap_Check, g_mipmap);
 
 			if(!g_have_transparency)
 			{
@@ -140,10 +178,15 @@ static BOOL CALLBACK DialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARA
 				SetDlgItemText(hwndDlg, OUT_Alpha_Radio_Channel, g_alpha_name);
 			}
 
+			SET_CHECK(OUT_Premultiply_Check, g_premultiply);
+
 			SET_CHECK( (g_alpha == DIALOG_ALPHA_NONE ? OUT_Alpha_Radio_None :
 						g_alpha == DIALOG_ALPHA_TRANSPARENCY ? OUT_Alpha_Radio_Transparency :
 						g_alpha == DIALOG_ALPHA_CHANNEL ? OUT_Alpha_Radio_Channel :
 						OUT_Alpha_Radio_None), TRUE);
+	
+			TrackAlpha(hwndDlg);
+			TrackMipmap(hwndDlg);
 
 			return TRUE;
  
@@ -157,21 +200,40 @@ static BOOL CALLBACK DialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARA
             { 
                 case OUT_OK: 
 				case OUT_Cancel:  // do the same thing, but g_item_clicked will be different
+				do{
 					HWND menu = GetDlgItem(hwndDlg, OUT_Format_Menu);
 
 					// get the channel index associated with the selected menu item
 					LRESULT cur_sel = SendMessage(menu,(UINT)CB_GETCURSEL, (WPARAM)0, (LPARAM)0);
 
-					g_format = (DialogFormat)SendMessage(menu,(UINT)CB_GETITEMDATA, (WPARAM)cur_sel, (LPARAM)0);
-
-					g_mipmap = GET_CHECK(OUT_Mipmap_Radio);
+					g_format = (DialogFormat)SendMessage(menu, (UINT)CB_GETITEMDATA, (WPARAM)cur_sel, (LPARAM)0);
 
 					g_alpha =	GET_CHECK(OUT_Alpha_Radio_None) ? DIALOG_ALPHA_NONE :
 								GET_CHECK(OUT_Alpha_Radio_Transparency) ? DIALOG_ALPHA_TRANSPARENCY :
 								GET_CHECK(OUT_Alpha_Radio_Channel) ? DIALOG_ALPHA_CHANNEL :
 								DIALOG_ALPHA_TRANSPARENCY;
 
+					g_premultiply = GET_CHECK(OUT_Premultiply_Check);
+
+					g_mipmap = GET_CHECK(OUT_Mipmap_Check);
+
+					HWND f_menu = GetDlgItem(hwndDlg, OUT_Filter_Menu);
+					cur_sel = SendMessage(f_menu,(UINT)CB_GETCURSEL, (WPARAM)0, (LPARAM)0);
+					g_filter = (DialogFilter)SendMessage(f_menu, (UINT)CB_GETITEMDATA, (WPARAM)cur_sel, (LPARAM)0);
+
 					EndDialog(hwndDlg, 0);
+					return TRUE;
+				}while(0);
+
+				case OUT_Alpha_Radio_None:
+				case OUT_Alpha_Radio_Transparency:
+				case OUT_Alpha_Radio_Channel:
+					TrackAlpha(hwndDlg);
+					return TRUE;
+
+
+				case OUT_Mipmap_Check:
+					TrackMipmap(hwndDlg);
 					return TRUE;
             } 
     } 
@@ -188,7 +250,9 @@ DDS_OutUI(
 {
 	g_format		= params->format;
 	g_alpha			= params->alpha;
+	g_premultiply	= params->premultiply;
 	g_mipmap		= params->mipmap;
+	g_filter		= params->filter;
 	
 	g_have_transparency = have_transparency;
 	g_alpha_name = alpha_name;
@@ -200,7 +264,9 @@ DDS_OutUI(
 	{
 		params->format			= g_format;
 		params->alpha			= g_alpha;
+		params->premultiply		= g_premultiply;
 		params->mipmap			= g_mipmap;
+		params->filter			= g_filter;
 
 		return true;
 	}

@@ -41,7 +41,7 @@
 #define DDS_UI_H
 
 typedef enum {
-	DIALOG_FMT_DXT1 = 0,
+	DIALOG_FMT_DXT1,
 	DIALOG_FMT_DXT1A,
 	DIALOG_FMT_DXT2,
 	DIALOG_FMT_DXT3,
@@ -54,10 +54,18 @@ typedef enum {
 } DialogFormat;
 
 typedef enum {
-	DIALOG_ALPHA_NONE = 0,
+	DIALOG_ALPHA_NONE,
 	DIALOG_ALPHA_TRANSPARENCY,
 	DIALOG_ALPHA_CHANNEL
 } DialogAlpha;
+
+typedef enum {
+	DIALOG_FILTER_BOX,
+	DIALOG_FILTER_TENT,
+	DIALOG_FILTER_LANCZOS4,
+	DIALOG_FILTER_MITCHELL,
+	DIALOG_FILTER_KAISER
+} DialogFilter;
 
 typedef struct {
 	DialogAlpha		alpha;
@@ -66,7 +74,9 @@ typedef struct {
 typedef struct {
 	DialogFormat		format;
 	DialogAlpha			alpha;
+	bool				premultiply;
 	bool				mipmap;
+	DialogFilter		filter;
 } DDS_OutUI_Data;
 
 // DDS UI

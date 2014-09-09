@@ -222,16 +222,28 @@ resource 'aete' (ResourceID, plugInName " dictionary", purgeable)
 				"DDS compression format",
 				flagsSingleProperty,
 				
+				"Alpha Channel",
+				keyDDSalpha,
+				typeEnumerated,
+				"Source of the alpha channel",
+				flagsSingleProperty,
+				
+				"Premultiply",
+				keyDDSpremult,
+				typeBoolean,
+				"Premultiply RGB by Alpha",
+				flagsSingleProperty,
+
 				"Mipmap",
 				keyDDSmipmap,
 				typeBoolean,
 				"Create Mipmaps",
 				flagsSingleProperty,
 				
-				"Alpha Channel",
-				keyDDSalpha,
+				"Filter",
+				keyDDSfilter,
 				typeEnumerated,
-				"Source of the alpha channel",
+				"Mipmap filter",
 				flagsSingleProperty,
 			},
 			{}, /* elements (not supported) */
@@ -239,20 +251,6 @@ resource 'aete' (ResourceID, plugInName " dictionary", purgeable)
 		},
 		{}, /* comparison ops (not supported) */
 		{	/* any enumerations */
-			typeAlphaChannel,
-			{
-                "None",
-                alphaChannelNone,
-                "No alpha channel",
-
-                "Transparency",
-                alphaChannelTransparency,
-                "Get alpha from Transparency",
-
-                "Channel",
-                alphaChannelChannel,
-                "Get alpha from channels palette"
-			},
 			typeDDSformat,
 			{
                 "DXT1",
@@ -294,6 +292,42 @@ resource 'aete' (ResourceID, plugInName " dictionary", purgeable)
                 "Uncompressed",
                 formatUncompressed,
                 "Uncompressed format",
+			},
+			typeAlphaChannel,
+			{
+                "None",
+                alphaChannelNone,
+                "No alpha channel",
+
+                "Transparency",
+                alphaChannelTransparency,
+                "Get alpha from Transparency",
+
+                "Channel",
+                alphaChannelChannel,
+                "Get alpha from channels palette"
+			},
+			typeFilter,
+			{
+                "Box",
+                filterBox,
+                "Box filter",
+                
+                "Tent",
+                filterTent,
+                "Tent filter",
+                
+                "Lanczos4",
+                filterLanczos4,
+                "Lanczos4 filter",
+                
+                "Mitchell",
+                filterMitchell,
+                "Mitchell filter",
+                
+                "Kaiser",
+                filterKaiser,
+                "Kaiser filter"
 			}
 		}
 	}

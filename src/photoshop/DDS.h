@@ -64,9 +64,8 @@ enum {
 	DDS_FMT_DXT5_xGBR,
 	DDS_FMT_DXT5_AGBR
 };
-typedef uint8 DXT_Format;
+typedef uint8 DDS_Format;
 
-#define DXT_FMT_DEFAULT DDS_FMT_DXT5
 
 enum {
 	DDS_ALPHA_NONE = 0,
@@ -76,18 +75,34 @@ enum {
 typedef uint8 DDS_Alpha;
 
 
+enum{
+	DDS_FILTER_BOX,
+	DDS_FILTER_TENT,
+	DDS_FILTER_LANCZOS4,
+	DDS_FILTER_MITCHELL,
+	DDS_FILTER_KAISER
+};
+typedef uint8 DDS_Filter;
+
+
 typedef struct {
+	char		sig[4];
+	uint8		version;
 	DDS_Alpha	alpha;
-	uint8		reserved[31];
+	uint8		reserved[26];
 	
 } DDS_inData;
 
 
 typedef struct {
-	DXT_Format		format;
+	char			sig[4];
+	uint8			version;
+	DDS_Format		format;
 	DDS_Alpha		alpha;
+	Boolean			premultiply;
 	Boolean			mipmap;
-	uint8			reserved[252];
+	DDS_Filter		filter;
+	uint8			reserved[246];
 	
 } DDS_outData;
 

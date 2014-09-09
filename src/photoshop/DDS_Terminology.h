@@ -49,14 +49,10 @@
 //-------------------------------------------------------------------------------
 
 #define keyDDSformat			'DDSf'
-#define keyDDSmipmap			'DDSm'
 #define keyDDSalpha				'DDSa'
-
-#define typeAlphaChannel		'alfT'
-
-#define alphaChannelNone		'alfN'
-#define alphaChannelTransparency 'alfT'
-#define alphaChannelChannel		'alfC'
+#define keyDDSpremult			'DDSp'
+#define keyDDSmipmap			'DDSm'
+#define keyDDSfilter			'DDSq'
 
 #define typeDDSformat			'DXTn'
 
@@ -71,6 +67,18 @@
 #define formatDXN				'DXNc'
 #define formatUncompressed		'DXun'
 
+#define typeAlphaChannel		'alfT'
 
+#define alphaChannelNone		'Nalf'
+#define alphaChannelTransparency 'Talf'
+#define alphaChannelChannel		'Calf'
+
+#define typeFilter				'filT'
+
+#define filterBox				'Bfil'
+#define filterTent				'Tfil'
+#define filterLanczos4			'Lfil'
+#define filterMitchell			'Mfil'
+#define filterKaiser			'Kfil'
 
 #endif // __WebP_Terminology_H__
