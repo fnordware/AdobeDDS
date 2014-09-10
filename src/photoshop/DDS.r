@@ -142,14 +142,14 @@ resource 'PiPL' (ResourceID, plugInName " PiPL", purgeable)
 					  fmtCanWriteIfRead, 
 					  fmtCanWriteTransparency,
 					  fmtCannotCreateThumbnail },
-		PlugInMaxSize { 16384, 16384 },
-		FormatMaxSize { { 16384, 16384 } },
+		PlugInMaxSize { 8192, 8192 },
+		FormatMaxSize { { 8192, 8192 } },
 		FormatMaxChannels { {   0, 0, 0, 5, 0, 0, 
 							   0, 0, 0, 0, 0, 0 } },
-		FormatICCFlags { 	iccCanEmbedGray,
-							iccCanEmbedIndexed,
-							iccCanEmbedRGB,
-							iccCannotEmbedCMYK },
+		//FormatICCFlags { 	iccCanEmbedGray,
+		//					iccCanEmbedIndexed,
+		//					iccCanEmbedRGB,
+		//					iccCannotEmbedCMYK },
 		},
 	};
 
@@ -216,47 +216,83 @@ resource 'aete' (ResourceID, plugInName " dictionary", purgeable)
 				"parent class format",						/* optional description */
 				flagsSingleProperty,						/* if properties, list below */
 							
-				"Lossless",
-				keyWebPlossless,
-				typeBoolean,
-				"WebP lossless compression used",
-				flagsSingleProperty,
-				
-				"Quality",
-				keyWebPquality,
-				typeInteger,
-				"WebP compression quality",
+				"DDS Format",
+				keyDDSformat,
+				typeEnumerated,
+				"DDS compression format",
 				flagsSingleProperty,
 				
 				"Alpha Channel",
-				keyWebPalpha,
+				keyDDSalpha,
 				typeEnumerated,
 				"Source of the alpha channel",
 				flagsSingleProperty,
-
-				"Lossy Alpha",
-				keyWebPlossyAlpha,
+				
+				"Premultiply",
+				keyDDSpremult,
 				typeBoolean,
-				"Compress with lossy alpha channel",
+				"Premultiply RGB by Alpha",
 				flagsSingleProperty,
 
-				"Alpha Cleanup",
-				keyWebPalphaCleanup,
+				"Mipmap",
+				keyDDSmipmap,
 				typeBoolean,
-				"Clean transparent areas of alpha channel",
+				"Create Mipmaps",
 				flagsSingleProperty,
-
-				"Save Metadata",
-				keyWebPsaveMetadata,
-				typeBoolean,
-				"Save ICC profile, EXIF, and XMP",
-				flagsSingleProperty
+				
+				"Filter",
+				keyDDSfilter,
+				typeEnumerated,
+				"Mipmap filter",
+				flagsSingleProperty,
 			},
 			{}, /* elements (not supported) */
 			/* class descriptions */
 		},
 		{}, /* comparison ops (not supported) */
 		{	/* any enumerations */
+			typeDDSformat,
+			{
+                "DXT1",
+                formatDXT1,
+                "DXT1 format",
+                
+                "DXT1A",
+                formatDXT1A,
+                "DXT1A format",
+                
+                "DXT2",
+                formatDXT2,
+                "DXT2 format",
+                
+                "DXT3",
+                formatDXT3,
+                "DXT3 format",
+                
+                "DXT4",
+                formatDXT4,
+                "DXT4 format",
+                
+                "DXT5",
+                formatDXT5,
+                "DXT5 format",
+                
+                "DXT5A",
+                formatDXT5A,
+                "DXT5A format",
+                
+                "3Dc",
+                format3DC,
+                "3Dc format",
+
+                "DXN",
+                formatDXN,
+                "DXN format",
+
+                "Uncompressed",
+                formatUncompressed,
+                "Uncompressed format",
+			},
 			typeAlphaChannel,
 			{
                 "None",
@@ -270,6 +306,28 @@ resource 'aete' (ResourceID, plugInName " dictionary", purgeable)
                 "Channel",
                 alphaChannelChannel,
                 "Get alpha from channels palette"
+			},
+			typeFilter,
+			{
+                "Box",
+                filterBox,
+                "Box filter",
+                
+                "Tent",
+                filterTent,
+                "Tent filter",
+                
+                "Lanczos4",
+                filterLanczos4,
+                "Lanczos4 filter",
+                
+                "Mitchell",
+                filterMitchell,
+                "Mitchell filter",
+                
+                "Kaiser",
+                filterKaiser,
+                "Kaiser filter"
 			}
 		}
 	}

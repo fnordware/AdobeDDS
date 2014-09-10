@@ -43,12 +43,37 @@
 #include "DDS_Terminology.h"
 
 
+static DDS_Format KeyToFormat(OSType key)
+{
+	return	(key == formatDXT1)			?	DDS_FMT_DXT1 :
+			(key == formatDXT1A)		?	DDS_FMT_DXT1A :
+			(key == formatDXT2)			?	DDS_FMT_DXT2 :
+			(key == formatDXT3)			?	DDS_FMT_DXT3 :
+			(key == formatDXT4)			?	DDS_FMT_DXT4 :
+			(key == formatDXT5)			?	DDS_FMT_DXT5 :
+			(key == formatDXT5A)		?	DDS_FMT_DXT5A :
+			(key == format3DC)			?	DDS_FMT_3DC :
+			(key == formatDXN)			?	DDS_FMT_DXN :
+			(key == formatUncompressed)	?	DDS_FMT_UNCOMPRESSED :
+			DDS_FMT_DXT5;
+}
+
 static DDS_Alpha KeyToAlpha(OSType key)
 {
 	return	(key == alphaChannelNone)			? DDS_ALPHA_NONE :
 			(key == alphaChannelTransparency)	? DDS_ALPHA_TRANSPARENCY :
 			(key == alphaChannelChannel)		? DDS_ALPHA_CHANNEL :
 			DDS_ALPHA_TRANSPARENCY;
+}
+
+static DDS_Filter KeyToFilter(OSType key)
+{
+	return	(key == filterBox		? DDS_FILTER_BOX :
+			key == filterTent		? DDS_FILTER_TENT :
+			key == filterLanczos4	? DDS_FILTER_LANCZOS4 :
+			key == filterMitchell	? DDS_FILTER_MITCHELL :
+			key == filterKaiser		? DDS_FILTER_KAISER :
+			DDS_FILTER_MITCHELL);
 }
 
 Boolean ReadScriptParamsOnWrite(GPtr globals)
@@ -74,36 +99,31 @@ Boolean ReadScriptParamsOnWrite(GPtr globals)
 			{
 				switch (key)
 				{
-/*					case keyWebPlossless:
-							PIGetBool(token, &boolStoreValue);
-							gOptions.lossless = boolStoreValue;
+					case keyDDSformat:
+							PIGetEnum(token, &ostypeStoreValue);
+							gOptions.format = KeyToFormat(ostypeStoreValue);
 							break;
 					
-					case keyWebPquality:
-							PIGetInt(token, &storeValue);
-							gOptions.quality = storeValue;
-							break;
-
-					case keyWebPalpha:
+					case keyDDSalpha:
 							PIGetEnum(token, &ostypeStoreValue);
 							gOptions.alpha = KeyToAlpha(ostypeStoreValue);
 							break;
-					
-					case keyWebPlossyAlpha:
+
+					case keyDDSpremult:
 							PIGetBool(token, &boolStoreValue);
-							gOptions.lossy_alpha = boolStoreValue;
+							gOptions.premultiply = boolStoreValue;
 							break;
 
-					case keyWebPalphaCleanup:
+					case keyDDSmipmap:
 							PIGetBool(token, &boolStoreValue);
-							gOptions.alpha_cleanup = boolStoreValue;
+							gOptions.mipmap = boolStoreValue;
 							break;
 
-					case keyWebPsaveMetadata:
-							PIGetBool(token, &boolStoreValue);
-							gOptions.save_metadata = boolStoreValue;
+					case keyDDSfilter:
+							PIGetEnum(token, &ostypeStoreValue);
+							gOptions.filter = KeyToFilter(ostypeStoreValue);
 							break;
-*/				}
+				}
 			}
 
 			stickyError = CloseReader(&token); // closes & disposes.
@@ -127,6 +147,20 @@ Boolean ReadScriptParamsOnWrite(GPtr globals)
 }
 
 		
+static OSType FormatToKey(DDS_Format fmt)
+{
+	return	(fmt == DDS_FMT_DXT1)			? formatDXT1 :
+			(fmt == DDS_FMT_DXT1A)			? formatDXT1A :
+			(fmt == DDS_FMT_DXT2)			? formatDXT2 :
+			(fmt == DDS_FMT_DXT3)			? formatDXT3 :
+			(fmt == DDS_FMT_DXT4)			? formatDXT4 :
+			(fmt == DDS_FMT_DXT5)			? formatDXT5 :
+			(fmt == DDS_FMT_DXT5A)			? formatDXT5A :
+			(fmt == DDS_FMT_3DC)			? format3DC :
+			(fmt == DDS_FMT_DXN)			? formatDXN :
+			(fmt == DDS_FMT_UNCOMPRESSED)	? formatUncompressed :
+			formatDXT5;
+}
 
 static OSType AlphaToKey(DDS_Alpha alpha)
 {
@@ -134,6 +168,16 @@ static OSType AlphaToKey(DDS_Alpha alpha)
 			(alpha == DDS_ALPHA_TRANSPARENCY)	? alphaChannelTransparency :
 			(alpha == DDS_ALPHA_CHANNEL)		? alphaChannelChannel :
 			alphaChannelTransparency;
+}
+
+static OSType FilterToKey(DDS_Filter filter)
+{
+	return	(filter == DDS_FILTER_BOX		? filterBox :
+			filter == DDS_FILTER_TENT		? filterTent :
+			filter == DDS_FILTER_LANCZOS4	? filterLanczos4 :
+			filter == DDS_FILTER_MITCHELL	? filterMitchell :
+			filter == DDS_FILTER_KAISER		? filterKaiser :
+			filterMitchell);
 }
 
 OSErr WriteScriptParamsOnWrite(GPtr globals)
@@ -146,28 +190,19 @@ OSErr WriteScriptParamsOnWrite(GPtr globals)
 		token = OpenWriter();
 		if (token)
 		{
-/*			// write keys here
-			PIPutBool(token, keyWebPlossless, gOptions.lossless);
+			// write keys here
+			PIPutEnum(token, keyDDSformat, typeDDSformat, FormatToKey(gOptions.format));
+
+			PIPutEnum(token, keyDDSalpha, typeAlphaChannel, AlphaToKey(gOptions.alpha));
+
+			if(gOptions.alpha != DDS_ALPHA_NONE)
+				PIPutBool(token, keyDDSpremult, gOptions.premultiply);
 			
-			if(!gOptions.lossless)
-			{
-				PIPutInt(token, keyWebPquality, gOptions.quality);
-			}
+			PIPutBool(token, keyDDSmipmap, gOptions.mipmap);
+
+			if(gOptions.mipmap)
+				PIPutEnum(token, keyDDSfilter, typeFilter, FilterToKey(gOptions.filter));
 				
-			PIPutEnum(token, keyWebPalpha, typeAlphaChannel, AlphaToKey(gOptions.alpha));
-			
-			if(gOptions.alpha != WEBP_ALPHA_NONE)
-			{
-				PIPutBool(token, keyWebPlossyAlpha, gOptions.lossy_alpha);
-				
-				if(gOptions.alpha == WEBP_ALPHA_TRANSPARENCY)
-				{
-					PIPutBool(token, keyWebPalphaCleanup, gOptions.alpha_cleanup);
-				}
-			}
-			
-			PIPutBool(token, keyWebPsaveMetadata, gOptions.save_metadata);
-*/			
 			gotErr = CloseWriter(&token); /* closes and sets dialog optional */
 			/* done.  Now pass handle on to Photoshop */
 		}

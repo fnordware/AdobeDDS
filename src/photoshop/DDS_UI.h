@@ -37,31 +37,49 @@
 //
 // ------------------------------------------------------------------------
 
-#ifndef WEBP_UI_H
-#define WEBP_UI_H
-
+#ifndef DDS_UI_H
+#define DDS_UI_H
 
 typedef enum {
-	DIALOG_ALPHA_NONE = 0,
+	DIALOG_FMT_DXT1,
+	DIALOG_FMT_DXT1A,
+	DIALOG_FMT_DXT2,
+	DIALOG_FMT_DXT3,
+	DIALOG_FMT_DXT4,
+	DIALOG_FMT_DXT5,
+	DIALOG_FMT_DXT5A,
+	DIALOG_FMT_3DC,
+	DIALOG_FMT_DXN,
+	DIALOG_FMT_UNCOMPRESSED
+} DialogFormat;
+
+typedef enum {
+	DIALOG_ALPHA_NONE,
 	DIALOG_ALPHA_TRANSPARENCY,
 	DIALOG_ALPHA_CHANNEL
 } DialogAlpha;
 
+typedef enum {
+	DIALOG_FILTER_BOX,
+	DIALOG_FILTER_TENT,
+	DIALOG_FILTER_LANCZOS4,
+	DIALOG_FILTER_MITCHELL,
+	DIALOG_FILTER_KAISER
+} DialogFilter;
+
 typedef struct {
 	DialogAlpha		alpha;
-	bool			mult;
 } DDS_InUI_Data;
 
 typedef struct {
-	bool				lossless;
-	int					quality;
+	DialogFormat		format;
 	DialogAlpha			alpha;
-	bool				lossy_alpha;
-	bool				alpha_cleanup;
-	bool				save_metadata;
+	bool				premultiply;
+	bool				mipmap;
+	DialogFilter		filter;
 } DDS_OutUI_Data;
 
-// WebP UI
+// DDS UI
 //
 // return true if user hit OK
 // if user hit OK, params block will have been modified
@@ -72,7 +90,6 @@ typedef struct {
 bool
 DDS_InUI(
 	DDS_InUI_Data		*params,
-	bool				have_alpha,
 	const void			*plugHndl,
 	const void			*mwnd);
 
@@ -81,13 +98,13 @@ DDS_OutUI(
 	DDS_OutUI_Data		*params,
 	bool				have_transparency,
 	const char			*alpha_name,
+	bool				ae_ui,
 	const void			*plugHndl,
 	const void			*mwnd);
 
 void
 DDS_About(
 	const char		*plugin_version_string,
-	const char		*DDS_version_string,
 	const void		*plugHndl,
 	const void		*mwnd);
 	
@@ -95,15 +112,13 @@ DDS_About(
 // Mac prefs keys
 #define DDS_PREFS_ID		"com.fnordware.Photoshop.DDS"
 #define DDS_PREFS_ALPHA		"Alpha Mode"
-#define DDS_PREFS_MULT		"Mult"
 #define DDS_PREFS_AUTO		"Auto"
 
 
 // Windows registry keys
 #define DDS_PREFIX		"Software\\fnord\\DDS"
 #define DDS_ALPHA_KEY	"Alpha"
-#define DDS_MULT_KEY	"Mult"
 #define DDS_AUTO_KEY	"Auto"
 
 
-#endif // WEBP_UI_H
+#endif // DDS_UI_H
