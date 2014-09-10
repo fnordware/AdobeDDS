@@ -65,7 +65,7 @@ typedef enum {
 	DIALOG_FILTER_LANCZOS4,
 	DIALOG_FILTER_MITCHELL,
 	DIALOG_FILTER_KAISER
-} DialogFilter;
+} Dialog_Filter;
 
 typedef struct {
 	DialogAlpha		alpha;
@@ -76,7 +76,7 @@ typedef struct {
 	DialogAlpha			alpha;
 	bool				premultiply;
 	bool				mipmap;
-	DialogFilter		filter;
+	Dialog_Filter		filter;
 } DDS_OutUI_Data;
 
 // DDS UI

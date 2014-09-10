@@ -70,8 +70,8 @@
 #include "PIDefines.h"
 
 #ifdef __PIMac__
-	#include "Types.r"
-	#include "SysTypes.r"
+	//#include "Types.r"
+	//#include "SysTypes.r"
 	#include "PIGeneral.r"
 	//#include "PIUtilities.r"
 	//#include "DialogUtilities.r"

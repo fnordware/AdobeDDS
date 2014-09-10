@@ -250,7 +250,7 @@ ps_data_stream::get_size()
 #ifdef __PIMac__
 	SInt64 fork_size = 0;
 	
-	OSErr result = FSGetForkSize(g_dataFork, &fork_size);
+	OSErr result = FSGetForkSize(_dataFork, &fork_size);
 		
 	return fork_size;
 #else

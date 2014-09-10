@@ -60,20 +60,18 @@
 bool
 DDS_InUI(
 	DDS_InUI_Data		*params,
-	bool				have_alpha,
 	const void			*plugHndl,
 	const void			*mwnd)
 {
 	bool result = true;
 	
-	params->alpha = DIALOG_ALPHA_TRANSPARENCY;
-	params->mult = false;
+	//params->alpha = DIALOG_ALPHA_TRANSPARENCY;
+	//params->mult = false;
 	
 	// get the prefs
 	BOOL auto_dialog = FALSE;
 	
 	CFPropertyListRef alphaMode_val = CFPreferencesCopyAppValue(CFSTR(DDS_PREFS_ALPHA), CFSTR(DDS_PREFS_ID));
-	CFPropertyListRef mult_val = CFPreferencesCopyAppValue(CFSTR(DDS_PREFS_MULT), CFSTR(DDS_PREFS_ID));
 	CFPropertyListRef auto_val = CFPreferencesCopyAppValue(CFSTR(DDS_PREFS_AUTO), CFSTR(DDS_PREFS_ID));
 
 	if(alphaMode_val)
@@ -88,13 +86,6 @@ DDS_InUI(
 		CFRelease(alphaMode_val);
 	}
 
-	if(mult_val)
-	{
-		params->mult = CFBooleanGetValue((CFBooleanRef)mult_val);
-		
-		CFRelease(mult_val);
-	}
-
 	if(auto_val)
 	{
 		auto_dialog = CFBooleanGetValue((CFBooleanRef)auto_val);
@@ -107,7 +98,7 @@ DDS_InUI(
 	const NSUInteger flags = [[NSApp currentEvent] modifierFlags];
 	const bool shift_key = ( (flags & NSShiftKeyMask) || (flags & NSAlternateKeyMask) );
 
-	if((auto_dialog && have_alpha) || shift_key)
+	if(auto_dialog || shift_key)
 	{
 		// do the dialog (or maybe not (but we still load the object to get the prefs)
 		NSString *bundle_id = [NSString stringWithUTF8String:(const char *)plugHndl];
@@ -174,6 +165,7 @@ DDS_OutUI(
 	DDS_OutUI_Data		*params,
 	bool				have_transparency,
 	const char			*alpha_name,
+    bool				ae_ui,
 	const void			*plugHndl,
 	const void			*mwnd)
 {
@@ -244,7 +236,6 @@ DDS_OutUI(
 void
 DDS_About(
 	const char		*plugin_version_string,
-	const char		*DDS_version_string,
 	const void		*plugHndl,
 	const void		*mwnd)
 {
