@@ -134,8 +134,6 @@
 		2A5AC00C19B7FF80003F47D0 /* crn_threading_null.h in Headers */ = {isa = PBXBuildFile; fileRef = 2A5ABF3419B7FF80003F47D0 /* crn_threading_null.h */; };
 		2A5AC00D19B7FF80003F47D0 /* crn_threading_pthreads.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A5ABF3519B7FF80003F47D0 /* crn_threading_pthreads.cpp */; };
 		2A5AC00E19B7FF80003F47D0 /* crn_threading_pthreads.h in Headers */ = {isa = PBXBuildFile; fileRef = 2A5ABF3619B7FF80003F47D0 /* crn_threading_pthreads.h */; };
-		2A5AC00F19B7FF80003F47D0 /* crn_threading_win32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A5ABF3719B7FF80003F47D0 /* crn_threading_win32.cpp */; };
-		2A5AC01019B7FF80003F47D0 /* crn_threading_win32.h in Headers */ = {isa = PBXBuildFile; fileRef = 2A5ABF3819B7FF80003F47D0 /* crn_threading_win32.h */; };
 		2A5AC01119B7FF80003F47D0 /* crn_timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A5ABF3919B7FF80003F47D0 /* crn_timer.cpp */; };
 		2A5AC01219B7FF80003F47D0 /* crn_timer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2A5ABF3A19B7FF80003F47D0 /* crn_timer.h */; };
 		2A5AC01319B7FF80003F47D0 /* crn_traits.h in Headers */ = {isa = PBXBuildFile; fileRef = 2A5ABF3B19B7FF80003F47D0 /* crn_traits.h */; };
@@ -156,8 +154,6 @@
 		2A5AC02219B7FF80003F47D0 /* crnlib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A5ABF4C19B7FF80003F47D0 /* crnlib.cpp */; };
 		2A5AC02319B7FF80003F47D0 /* lzham_timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A5ABF4E19B7FF80003F47D0 /* lzham_timer.cpp */; };
 		2A5AC02419B7FF80003F47D0 /* lzham_timer.h in Headers */ = {isa = PBXBuildFile; fileRef = 2A5ABF4F19B7FF80003F47D0 /* lzham_timer.h */; };
-		2A5AC02519B7FF80003F47D0 /* lzham_win32_threading.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A5ABF5019B7FF80003F47D0 /* lzham_win32_threading.cpp */; };
-		2A5AC02619B7FF80003F47D0 /* lzham_win32_threading.h in Headers */ = {isa = PBXBuildFile; fileRef = 2A5ABF5119B7FF80003F47D0 /* lzham_win32_threading.h */; };
 		2A5AC02719B7FF80003F47D0 /* lzma_7zBuf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A5ABF5219B7FF80003F47D0 /* lzma_7zBuf.cpp */; };
 		2A5AC02819B7FF80003F47D0 /* lzma_7zBuf.h in Headers */ = {isa = PBXBuildFile; fileRef = 2A5ABF5319B7FF80003F47D0 /* lzma_7zBuf.h */; };
 		2A5AC02919B7FF80003F47D0 /* lzma_7zBuf2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A5ABF5419B7FF80003F47D0 /* lzma_7zBuf2.cpp */; };
@@ -325,8 +321,6 @@
 		2A5ABF3419B7FF80003F47D0 /* crn_threading_null.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crn_threading_null.h; sourceTree = "<group>"; };
 		2A5ABF3519B7FF80003F47D0 /* crn_threading_pthreads.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = crn_threading_pthreads.cpp; sourceTree = "<group>"; };
 		2A5ABF3619B7FF80003F47D0 /* crn_threading_pthreads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crn_threading_pthreads.h; sourceTree = "<group>"; };
-		2A5ABF3719B7FF80003F47D0 /* crn_threading_win32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = crn_threading_win32.cpp; sourceTree = "<group>"; };
-		2A5ABF3819B7FF80003F47D0 /* crn_threading_win32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crn_threading_win32.h; sourceTree = "<group>"; };
 		2A5ABF3919B7FF80003F47D0 /* crn_timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = crn_timer.cpp; sourceTree = "<group>"; };
 		2A5ABF3A19B7FF80003F47D0 /* crn_timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crn_timer.h; sourceTree = "<group>"; };
 		2A5ABF3B19B7FF80003F47D0 /* crn_traits.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crn_traits.h; sourceTree = "<group>"; };
@@ -349,8 +343,6 @@
 		2A5ABF4D19B7FF80003F47D0 /* crnlib_linux.cbp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = crnlib_linux.cbp; sourceTree = "<group>"; };
 		2A5ABF4E19B7FF80003F47D0 /* lzham_timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lzham_timer.cpp; sourceTree = "<group>"; };
 		2A5ABF4F19B7FF80003F47D0 /* lzham_timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lzham_timer.h; sourceTree = "<group>"; };
-		2A5ABF5019B7FF80003F47D0 /* lzham_win32_threading.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lzham_win32_threading.cpp; sourceTree = "<group>"; };
-		2A5ABF5119B7FF80003F47D0 /* lzham_win32_threading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lzham_win32_threading.h; sourceTree = "<group>"; };
 		2A5ABF5219B7FF80003F47D0 /* lzma_7zBuf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lzma_7zBuf.cpp; sourceTree = "<group>"; };
 		2A5ABF5319B7FF80003F47D0 /* lzma_7zBuf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lzma_7zBuf.h; sourceTree = "<group>"; };
 		2A5ABF5419B7FF80003F47D0 /* lzma_7zBuf2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lzma_7zBuf2.cpp; sourceTree = "<group>"; };
@@ -565,8 +557,6 @@
 				2A5ABF3419B7FF80003F47D0 /* crn_threading_null.h */,
 				2A5ABF3519B7FF80003F47D0 /* crn_threading_pthreads.cpp */,
 				2A5ABF3619B7FF80003F47D0 /* crn_threading_pthreads.h */,
-				2A5ABF3719B7FF80003F47D0 /* crn_threading_win32.cpp */,
-				2A5ABF3819B7FF80003F47D0 /* crn_threading_win32.h */,
 				2A5ABF3919B7FF80003F47D0 /* crn_timer.cpp */,
 				2A5ABF3A19B7FF80003F47D0 /* crn_timer.h */,
 				2A5ABF3B19B7FF80003F47D0 /* crn_traits.h */,
@@ -589,8 +579,6 @@
 				2A5ABF4D19B7FF80003F47D0 /* crnlib_linux.cbp */,
 				2A5ABF4E19B7FF80003F47D0 /* lzham_timer.cpp */,
 				2A5ABF4F19B7FF80003F47D0 /* lzham_timer.h */,
-				2A5ABF5019B7FF80003F47D0 /* lzham_win32_threading.cpp */,
-				2A5ABF5119B7FF80003F47D0 /* lzham_win32_threading.h */,
 				2A5ABF5219B7FF80003F47D0 /* lzma_7zBuf.cpp */,
 				2A5ABF5319B7FF80003F47D0 /* lzma_7zBuf.h */,
 				2A5ABF5419B7FF80003F47D0 /* lzma_7zBuf2.cpp */,
@@ -718,7 +706,6 @@
 				2A5AC00B19B7FF80003F47D0 /* crn_threading.h in Headers */,
 				2A5AC00C19B7FF80003F47D0 /* crn_threading_null.h in Headers */,
 				2A5AC00E19B7FF80003F47D0 /* crn_threading_pthreads.h in Headers */,
-				2A5AC01019B7FF80003F47D0 /* crn_threading_win32.h in Headers */,
 				2A5AC01219B7FF80003F47D0 /* crn_timer.h in Headers */,
 				2A5AC01319B7FF80003F47D0 /* crn_traits.h in Headers */,
 				2A5AC01419B7FF80003F47D0 /* crn_tree_clusterizer.h in Headers */,
@@ -732,7 +719,6 @@
 				2A5AC01F19B7FF80003F47D0 /* crn_winhdr.h in Headers */,
 				2A5AC02119B7FF80003F47D0 /* crn_zeng.h in Headers */,
 				2A5AC02419B7FF80003F47D0 /* lzham_timer.h in Headers */,
-				2A5AC02619B7FF80003F47D0 /* lzham_win32_threading.h in Headers */,
 				2A5AC02819B7FF80003F47D0 /* lzma_7zBuf.h in Headers */,
 				2A5AC02B19B7FF80003F47D0 /* lzma_7zCrc.h in Headers */,
 				2A5AC02D19B7FF80003F47D0 /* lzma_7zFile.h in Headers */,
@@ -860,7 +846,6 @@
 				2A5AC00619B7FF80003F47D0 /* crn_texture_file_types.cpp in Sources */,
 				2A5AC00919B7FF80003F47D0 /* crn_threaded_resampler.cpp in Sources */,
 				2A5AC00D19B7FF80003F47D0 /* crn_threading_pthreads.cpp in Sources */,
-				2A5AC00F19B7FF80003F47D0 /* crn_threading_win32.cpp in Sources */,
 				2A5AC01119B7FF80003F47D0 /* crn_timer.cpp in Sources */,
 				2A5AC01619B7FF80003F47D0 /* crn_utils.cpp in Sources */,
 				2A5AC01819B7FF80003F47D0 /* crn_value.cpp in Sources */,
@@ -868,7 +853,6 @@
 				2A5AC02019B7FF80003F47D0 /* crn_zeng.cpp in Sources */,
 				2A5AC02219B7FF80003F47D0 /* crnlib.cpp in Sources */,
 				2A5AC02319B7FF80003F47D0 /* lzham_timer.cpp in Sources */,
-				2A5AC02519B7FF80003F47D0 /* lzham_win32_threading.cpp in Sources */,
 				2A5AC02719B7FF80003F47D0 /* lzma_7zBuf.cpp in Sources */,
 				2A5AC02919B7FF80003F47D0 /* lzma_7zBuf2.cpp in Sources */,
 				2A5AC02A19B7FF80003F47D0 /* lzma_7zCrc.cpp in Sources */,

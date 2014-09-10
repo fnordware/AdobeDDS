@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A1009A119C079C900F87EEB /* libcrnlib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A10099E19C079C000F87EEB /* libcrnlib.a */; };
 		2A5ABD9219B7C679003F47D0 /* DDS_Scripting.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A5ABD8919B7C679003F47D0 /* DDS_Scripting.cpp */; };
 		2A5ABD9319B7C679003F47D0 /* DDS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A5ABD8D19B7C679003F47D0 /* DDS.cpp */; };
 		2A5ABD9419B7C679003F47D0 /* DDS.r in Rez */ = {isa = PBXBuildFile; fileRef = 2A5ABD8F19B7C679003F47D0 /* DDS.r */; };
@@ -21,8 +22,26 @@
 		8D01CCCE0486CAD60068D4B7 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EA7FFBFE8413EDC02AAC07 /* Carbon.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		2A10099D19C079C000F87EEB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A10099619C079C000F87EEB /* crnlib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2A5ABE9819B7FF3A003F47D0 /* libcrnlib.a */;
+			remoteInfo = crnlib;
+		};
+		2A1009A219C079D400F87EEB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A10099619C079C000F87EEB /* crnlib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 2A5ABE9719B7FF3A003F47D0 /* crnlib */;
+			remoteInfo = crnlib;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		08EA7FFBFE8413EDC02AAC07 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		2A10099619C079C000F87EEB /* crnlib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = crnlib.xcodeproj; path = ext/crnlib.xcodeproj; sourceTree = "<group>"; };
 		2A5ABD8919B7C679003F47D0 /* DDS_Scripting.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DDS_Scripting.cpp; sourceTree = "<group>"; };
 		2A5ABD8A19B7C679003F47D0 /* DDS_Terminology.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDS_Terminology.h; sourceTree = "<group>"; };
 		2A5ABD8B19B7C679003F47D0 /* DDS_UI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDS_UI.h; sourceTree = "<group>"; };
@@ -565,6 +584,7 @@
 				8D01CCCE0486CAD60068D4B7 /* Carbon.framework in Frameworks */,
 				646B5CAA10D31664001A7C6E /* Cocoa.framework in Frameworks */,
 				646B5D5F10D31674001A7C6E /* AppKit.framework in Frameworks */,
+				2A1009A119C079C900F87EEB /* libcrnlib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -575,6 +595,7 @@
 			isa = PBXGroup;
 			children = (
 				2A0E424C176D0ED100420489 /* photoshop */,
+				2A10099619C079C000F87EEB /* crnlib.xcodeproj */,
 				64126B7009F97565006DF4E6 /* common */,
 				64126AD309F9751C006DF4E6 /* photoshopapi */,
 				6412691709F974D9006DF4E6 /* Mac OS common */,
@@ -617,6 +638,14 @@
 			name = photoshop;
 			path = ../../src/photoshop;
 			sourceTree = SOURCE_ROOT;
+		};
+		2A10099719C079C000F87EEB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2A10099E19C079C000F87EEB /* libcrnlib.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
 		};
 		2A5ABD9019B7C679003F47D0 /* mac */ = {
 			isa = PBXGroup;
@@ -1234,6 +1263,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				2A1009A319C079D400F87EEB /* PBXTargetDependency */,
 			);
 			name = DDS;
 			productInstallPath = "$(HOME)/Library/Bundles";
@@ -1258,12 +1288,28 @@
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* SimpleFormat */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 2A10099719C079C000F87EEB /* Products */;
+					ProjectRef = 2A10099619C079C000F87EEB /* crnlib.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				8D01CCC60486CAD60068D4B7 /* DDS */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		2A10099E19C079C000F87EEB /* libcrnlib.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libcrnlib.a;
+			remoteRef = 2A10099D19C079C000F87EEB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8D01CCC90486CAD60068D4B7 /* Resources */ = {
@@ -1303,6 +1349,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2A1009A319C079D400F87EEB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = crnlib;
+			targetProxy = 2A1009A219C079D400F87EEB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		2A01738D112F17A8005CDE51 /* Release */ = {
