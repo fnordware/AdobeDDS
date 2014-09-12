@@ -182,6 +182,7 @@ static inline bool KeyIsDown(int vKey)
 bool
 DDS_InUI(
 	DDS_InUI_Data		*params,
+	bool				has_alpha,
 	const void			*plugHndl,
 	const void			*mwnd)
 {
@@ -195,7 +196,7 @@ DDS_InUI(
 	// check for that shift key
 	bool shift_key = ( KeyIsDown(VK_LSHIFT) || KeyIsDown(VK_RSHIFT) || KeyIsDown(VK_LMENU) || KeyIsDown(VK_RMENU) );
 
-	if(g_autoD || shift_key)
+	if((g_autoD && has_alpha) || shift_key)
 	{
 		int status = DialogBox(hDllInstance, (LPSTR)"IN_DIALOG", (HWND)mwnd, (DLGPROC)DialogProc);
 

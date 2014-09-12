@@ -80,7 +80,7 @@ static DialogFormat			g_format = DIALOG_FMT_DXT5;
 static DialogAlpha			g_alpha = DIALOG_ALPHA_NONE;
 static bool					g_premultiply = false;
 static bool					g_mipmap = false;
-static DialogFilter			g_filter = DIALOG_FILTER_MITCHELL;
+static Dialog_Filter		g_filter = DIALOG_FILTER_MITCHELL;
 
 static bool					g_have_transparency = false;
 static const char			*g_alpha_name = NULL;
@@ -247,7 +247,7 @@ static BOOL CALLBACK DialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARA
 
 					HWND f_menu = GetDlgItem(hwndDlg, OUT_Filter_Menu);
 					cur_sel = SendMessage(f_menu,(UINT)CB_GETCURSEL, (WPARAM)0, (LPARAM)0);
-					g_filter = (DialogFilter)SendMessage(f_menu, (UINT)CB_GETITEMDATA, (WPARAM)cur_sel, (LPARAM)0);
+					g_filter = (Dialog_Filter)SendMessage(f_menu, (UINT)CB_GETITEMDATA, (WPARAM)cur_sel, (LPARAM)0);
 
 					EndDialog(hwndDlg, 0);
 					return TRUE;
