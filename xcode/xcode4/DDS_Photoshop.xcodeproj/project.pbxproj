@@ -752,7 +752,7 @@
 				GENERATE_PKGINFO_FILE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					../../ext/crunch/crnlib,
+					../../ext/crunch_xcode/crnlib,
 				);
 				PLUGIN_TYPE = 8BIF;
 				PREBINDING = NO;
@@ -798,7 +798,7 @@
 				GENERATE_PKGINFO_FILE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					../../ext/crunch/crnlib,
+					../../ext/crunch_xcode/crnlib,
 				);
 				PLUGIN_TYPE = 8BIF;
 				PREBINDING = NO;

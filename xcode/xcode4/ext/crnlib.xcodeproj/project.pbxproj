@@ -416,7 +416,7 @@
 				2A5ABF8A19B7FF80003F47D0 /* inc */,
 			);
 			name = crunch;
-			path = ../../../ext/crunch;
+			path = ../../../ext/crunch_xcode;
 			sourceTree = SOURCE_ROOT;
 		};
 		2A5ABEB719B7FF80003F47D0 /* crnlib */ = {
