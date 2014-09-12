@@ -86,10 +86,12 @@
 }
 
 - (DialogAlpha)getAlpha {
-	if([[alphaMatrix cellAtRow:0 column:0] state] == NSOnState)
-		return DIALOG_ALPHA_TRANSPARENCY;
-	else
-		return DIALOG_ALPHA_CHANNEL;
+	switch([alphaMatrix selectedRow])
+	{
+		case 0:		return DIALOG_ALPHA_TRANSPARENCY;
+		case 1:		return DIALOG_ALPHA_CHANNEL;
+		default:	return DIALOG_ALPHA_CHANNEL;
+	}
 }
 
 - (BOOL)getAuto {

@@ -176,14 +176,13 @@
 }
 
 - (DialogAlpha)getAlpha {
-	if([[alphaMatrix cellAtRow:0 column:0] state] == NSOnState)
-		return DIALOG_ALPHA_NONE;
-	else if([[alphaMatrix cellAtRow:1 column:0] state] == NSOnState)
-		return DIALOG_ALPHA_TRANSPARENCY;
-	else if([[alphaMatrix cellAtRow:2 column:0] state] == NSOnState)
-		return DIALOG_ALPHA_CHANNEL;
-	else
-		return DIALOG_ALPHA_NONE;
+	switch([alphaMatrix selectedRow])
+	{
+		case 0:		return DIALOG_ALPHA_NONE;
+		case 1:		return DIALOG_ALPHA_TRANSPARENCY;
+		case 2:		return DIALOG_ALPHA_CHANNEL;
+		default:	return DIALOG_ALPHA_CHANNEL;
+	}
 }
 
 - (BOOL)getPremultiply {

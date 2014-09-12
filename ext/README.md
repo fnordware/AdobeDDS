@@ -5,7 +5,7 @@ This directory holds git submodules that point to libraries needed by DDS plug-i
 
 You will need to manually add the following to this directory because the owners don't have a git repository I can embed:
 
-* [Photoshop CS5 SDK](http://www.adobe.com/devnet/photoshop/sdk.html)
+* [Photoshop CC SDK](http://www.adobe.com/devnet/photoshop/sdk.html)
 
 
 If the submodule contents are missing, you should be able to get them by typing:
