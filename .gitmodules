@@ -1,3 +1,7 @@
 [submodule "ext/crunch"]
 	path = ext/crunch
 	url = git://github.com/Unvanquished/crunch.git
+[submodule "ext/crunch_xcode"]
+	path = ext/crunch_xcode
+	url = git://github.com/fnordware/crunch.git
+	branch = xcode
