@@ -11,6 +11,12 @@
 		2A5ABD9319B7C679003F47D0 /* DDS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A5ABD8D19B7C679003F47D0 /* DDS.cpp */; };
 		2A5ABD9419B7C679003F47D0 /* DDS.r in Rez */ = {isa = PBXBuildFile; fileRef = 2A5ABD8F19B7C679003F47D0 /* DDS.r */; };
 		2A5ABD9519B7C679003F47D0 /* DDS_UI_Cocoa.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2A5ABD9119B7C679003F47D0 /* DDS_UI_Cocoa.mm */; };
+		2A8C68F119C08A8B0039F630 /* DDS_OutUI.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A8C68F019C08A8B0039F630 /* DDS_OutUI.xib */; };
+		2A8C68FD19C0CD170039F630 /* DDS_About_Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A8C68F619C0CD170039F630 /* DDS_About_Controller.m */; };
+		2A8C68FE19C0CD170039F630 /* DDS_About.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A8C68F719C0CD170039F630 /* DDS_About.xib */; };
+		2A8C68FF19C0CD170039F630 /* DDS_InUI_Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A8C68F919C0CD170039F630 /* DDS_InUI_Controller.m */; };
+		2A8C690019C0CD170039F630 /* DDS_InUI.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A8C68FA19C0CD170039F630 /* DDS_InUI.xib */; };
+		2A8C690119C0CD170039F630 /* DDS_OutUI_Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A8C68FC19C0CD170039F630 /* DDS_OutUI_Controller.m */; };
 		2A8DDB9319C07EA700223E63 /* libcrnlib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A8DDB9019C07E8800223E63 /* libcrnlib.a */; };
 		2A8DDBE919C07F7600223E63 /* Appearance.r in Rez */ = {isa = PBXBuildFile; fileRef = 2A8DDB9619C07F7600223E63 /* Appearance.r */; };
 		2A8DDBEA19C07F7600223E63 /* CarbonEvents.r in Rez */ = {isa = PBXBuildFile; fileRef = 2A8DDB9819C07F7600223E63 /* CarbonEvents.r */; };
@@ -75,6 +81,15 @@
 		2A5ABD8E19B7C679003F47D0 /* DDS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDS.h; sourceTree = "<group>"; };
 		2A5ABD8F19B7C679003F47D0 /* DDS.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; path = DDS.r; sourceTree = "<group>"; };
 		2A5ABD9119B7C679003F47D0 /* DDS_UI_Cocoa.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DDS_UI_Cocoa.mm; sourceTree = "<group>"; };
+		2A8C68F019C08A8B0039F630 /* DDS_OutUI.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DDS_OutUI.xib; sourceTree = "<group>"; };
+		2A8C68F519C0CD170039F630 /* DDS_About_Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDS_About_Controller.h; sourceTree = "<group>"; };
+		2A8C68F619C0CD170039F630 /* DDS_About_Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDS_About_Controller.m; sourceTree = "<group>"; };
+		2A8C68F719C0CD170039F630 /* DDS_About.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DDS_About.xib; sourceTree = "<group>"; };
+		2A8C68F819C0CD170039F630 /* DDS_InUI_Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDS_InUI_Controller.h; sourceTree = "<group>"; };
+		2A8C68F919C0CD170039F630 /* DDS_InUI_Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDS_InUI_Controller.m; sourceTree = "<group>"; };
+		2A8C68FA19C0CD170039F630 /* DDS_InUI.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DDS_InUI.xib; sourceTree = "<group>"; };
+		2A8C68FB19C0CD170039F630 /* DDS_OutUI_Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDS_OutUI_Controller.h; sourceTree = "<group>"; };
+		2A8C68FC19C0CD170039F630 /* DDS_OutUI_Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDS_OutUI_Controller.m; sourceTree = "<group>"; };
 		2A8DDB8B19C07E8700223E63 /* crnlib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = crnlib.xcodeproj; path = ext/crnlib.xcodeproj; sourceTree = "<group>"; };
 		2A8DDB9419C07F7600223E63 /* AEInteraction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AEInteraction.h; sourceTree = "<group>"; };
 		2A8DDB9519C07F7600223E63 /* Appearance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Appearance.h; sourceTree = "<group>"; };
@@ -313,6 +328,15 @@
 		2A5ABD9019B7C679003F47D0 /* mac */ = {
 			isa = PBXGroup;
 			children = (
+				2A8C68F519C0CD170039F630 /* DDS_About_Controller.h */,
+				2A8C68F619C0CD170039F630 /* DDS_About_Controller.m */,
+				2A8C68F719C0CD170039F630 /* DDS_About.xib */,
+				2A8C68F819C0CD170039F630 /* DDS_InUI_Controller.h */,
+				2A8C68F919C0CD170039F630 /* DDS_InUI_Controller.m */,
+				2A8C68FA19C0CD170039F630 /* DDS_InUI.xib */,
+				2A8C68FB19C0CD170039F630 /* DDS_OutUI_Controller.h */,
+				2A8C68FC19C0CD170039F630 /* DDS_OutUI_Controller.m */,
+				2A8C68F019C08A8B0039F630 /* DDS_OutUI.xib */,
 				2A5ABD9119B7C679003F47D0 /* DDS_UI_Cocoa.mm */,
 			);
 			path = mac;
@@ -632,6 +656,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A8C68F119C08A8B0039F630 /* DDS_OutUI.xib in Resources */,
+				2A8C68FE19C0CD170039F630 /* DDS_About.xib in Resources */,
+				2A8C690019C0CD170039F630 /* DDS_InUI.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -687,6 +714,9 @@
 				2A5ABD9219B7C679003F47D0 /* DDS_Scripting.cpp in Sources */,
 				2A5ABD9319B7C679003F47D0 /* DDS.cpp in Sources */,
 				2A5ABD9519B7C679003F47D0 /* DDS_UI_Cocoa.mm in Sources */,
+				2A8C68FD19C0CD170039F630 /* DDS_About_Controller.m in Sources */,
+				2A8C68FF19C0CD170039F630 /* DDS_InUI_Controller.m in Sources */,
+				2A8C690119C0CD170039F630 /* DDS_OutUI_Controller.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

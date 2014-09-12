@@ -39,17 +39,13 @@
 
 #include "DDS_UI.h"
 
-//#import "WebP_In_Controller.h"
-//#import "WebP_Out_Controller.h"
-//#import "WebP_About_Controller.h"
+#import "DDS_InUI_Controller.h"
+#import "DDS_OutUI_Controller.h"
+#import "DDS_About_Controller.h"
 
 #include "DDS_version.h"
 
 #include "PIUtilities.h"
-
-#import <AppKit/AppKit.h> // get rid of this once the controllers are imported
-
-#include <string>
 
 // ==========
 // Only building this on 64-bit (Cocoa) architectures
@@ -60,13 +56,13 @@
 bool
 DDS_InUI(
 	DDS_InUI_Data		*params,
+	bool				has_alpha,
 	const void			*plugHndl,
 	const void			*mwnd)
 {
 	bool result = true;
 	
-	//params->alpha = DIALOG_ALPHA_TRANSPARENCY;
-	//params->mult = false;
+	params->alpha = DIALOG_ALPHA_CHANNEL;
 	
 	// get the prefs
 	BOOL auto_dialog = FALSE;
@@ -98,18 +94,17 @@ DDS_InUI(
 	const NSUInteger flags = [[NSApp currentEvent] modifierFlags];
 	const bool shift_key = ( (flags & NSShiftKeyMask) || (flags & NSAlternateKeyMask) );
 
-	if(auto_dialog || shift_key)
+	if((has_alpha && auto_dialog) || shift_key)
 	{
 		// do the dialog (or maybe not (but we still load the object to get the prefs)
 		NSString *bundle_id = [NSString stringWithUTF8String:(const char *)plugHndl];
-/*
+
 		Class ui_controller_class = [[NSBundle bundleWithIdentifier:bundle_id]
-										classNamed:@"WebP_In_Controller"];
+										classNamed:@"DDS_InUI_Controller"];
 
 		if(ui_controller_class)
 		{
-			WebP_In_Controller *ui_controller = [[ui_controller_class alloc] init:params->alpha
-														premultiply:params->mult
+			DDS_InUI_Controller *ui_controller = [[ui_controller_class alloc] init:params->alpha
 														autoDialog:auto_dialog];
 			
 			if(ui_controller)
@@ -122,8 +117,7 @@ DDS_InUI(
 					
 					if(modal_result == NSRunStoppedResponse)
 					{
-						params->alpha	= [ui_controller getAlpha];
-						params->mult	= [ui_controller getPremult];
+						params->alpha = [ui_controller getAlpha];
 						
 						result = true;
 					}
@@ -131,28 +125,19 @@ DDS_InUI(
 						result = false;
 					
 					
-					// record the prefs every time
-					char val = [ui_controller getDefaultAlpha];
-					CFNumberRef alpha_ref = CFNumberCreate(kCFAllocatorDefault, kCFNumberCharType, &val);
-					CFPreferencesSetAppValue(CFSTR(WEBP_PREFS_ALPHA), alpha_ref, CFSTR(WEBP_PREFS_ID));
-					
-					CFBooleanRef multRef =  ([ui_controller getDefaultPremult] ? kCFBooleanTrue : kCFBooleanFalse);
-					CFPreferencesSetAppValue(CFSTR(WEBP_PREFS_MULT), multRef, CFSTR(WEBP_PREFS_ID));
-					
+					// record the auto pref every time
 					CFBooleanRef autoRef =  ([ui_controller getAuto] ? kCFBooleanTrue : kCFBooleanFalse);
-					CFPreferencesSetAppValue(CFSTR(WEBP_PREFS_AUTO), autoRef, CFSTR(WEBP_PREFS_ID));
+					CFPreferencesSetAppValue(CFSTR(DDS_PREFS_AUTO), autoRef, CFSTR(DDS_PREFS_ID));
 					
-					CFPreferencesAppSynchronize(CFSTR(WEBP_PREFS_ID));
-					
-					CFRelease(alpha_ref);
-					
+					CFPreferencesAppSynchronize(CFSTR(DDS_PREFS_ID));
+										
 					
 					[my_window close];
 				}
 
 				[ui_controller release];
 			}
-		}*/
+		}
 	}
 
 
@@ -172,20 +157,21 @@ DDS_OutUI(
 	bool result = true;
 
 	NSString *bundle_id = [NSString stringWithUTF8String:(const char *)plugHndl];
-/*
+
 	Class ui_controller_class = [[NSBundle bundleWithIdentifier:bundle_id]
-									classNamed:@"WebP_Out_Controller"];
+									classNamed:@"DDS_OutUI_Controller"];
 
 	if(ui_controller_class)
 	{
-		WebP_Out_Controller *ui_controller = [[ui_controller_class alloc] init:params->lossless
-														quality:params->quality
-														alpha:params->alpha
-														lossyAlpha:params->lossy_alpha
-														alphaCleanup:params->alpha_cleanup
-														saveMetadata:params->save_metadata
-														have_transparency:have_transparency
-														alpha_name:alpha_name];
+		DDS_OutUI_Controller *ui_controller = [[ui_controller_class alloc] init: params->format
+																		  mipmap: params->mipmap
+																		  filter: params->filter
+																		   alpha: params->alpha
+																	 premultiply: params->premultiply
+															   have_transparency: have_transparency
+																	  alpha_name: alpha_name
+																		   ae_ui: ae_ui ];
+
 		if(ui_controller)
 		{
 			NSWindow *my_window = [ui_controller getWindow];
@@ -209,12 +195,11 @@ DDS_OutUI(
 				
 				if(dialog_result == DIALOG_RESULT_OK || modal_result == NSRunStoppedResponse)
 				{
-					params->lossless		= [ui_controller getLossless];
-					params->quality			= [ui_controller getQuality];
+					params->format			= [ui_controller getFormat];
+					params->mipmap			= [ui_controller getMipmap];
+					params->filter			= [ui_controller getFilter];
 					params->alpha			= [ui_controller getAlpha];
-					params->lossy_alpha		= [ui_controller getLossyAlpha];
-					params->alpha_cleanup	= [ui_controller getAlphaCleanup];
-					params->save_metadata	= [ui_controller getSaveMetadata];
+					params->premultiply		= [ui_controller getPremultiply];
 					
 					result = true;
 				}
@@ -227,7 +212,7 @@ DDS_OutUI(
 			[ui_controller release];
 		}
 	}
-	*/
+	
 	
 	return result;
 }
@@ -240,14 +225,13 @@ DDS_About(
 	const void		*mwnd)
 {
 	NSString *bundle_id = [NSString stringWithUTF8String:(const char *)plugHndl];
-/*
+
 	Class about_controller_class = [[NSBundle bundleWithIdentifier:bundle_id]
-									classNamed:@"WebP_About_Controller"];
+									classNamed:@"DDS_About_Controller"];
 	
 	if(about_controller_class)
 	{
-		WebP_About_Controller *about_controller = [[about_controller_class alloc] init:plugin_version_string
-													webpVersion:WebP_version_string];
+		DDS_About_Controller *about_controller = [[about_controller_class alloc] init:plugin_version_string];
 		
 		if(about_controller)
 		{
@@ -262,7 +246,7 @@ DDS_About(
 			
 			[about_controller release];
 		}
-	}*/
+	}
 }
 
 
