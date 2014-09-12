@@ -437,64 +437,61 @@ static void DoReadPrepare(GPtr globals)
 
 static void DoReadStart(GPtr globals)
 {
-	bool reverting = ReadParams(globals, &gInOptions);
-	
-	if(!reverting && gStuff->hostSig != 'FXTC')
+	ps_data_stream ps_stream(gStuff->dataFork, crnlib::cDataStreamReadable | crnlib::cDataStreamSeekable);
+
+	crnlib::data_stream_serializer serializer(&ps_stream);
+
+	crnlib::mipmapped_texture dds_file;
+
+	if( dds_file.read_dds(serializer) )
 	{
-		DDS_InUI_Data params;
+		gStuff->imageMode = plugInModeRGBColor;
+		gStuff->depth = 8;
+
+		gStuff->imageSize.h = gStuff->imageSize32.h = dds_file.get_width();
+		gStuff->imageSize.v = gStuff->imageSize32.v = dds_file.get_height();
 		
-	#ifdef __PIMac__
-		const char * const plugHndl = "com.fnordware.Photoshop.DDS";
-		const void *hwnd = globals;	
-	#else
-		const void * const plugHndl = hDllInstance;
-		HWND hwnd = (HWND)((PlatformData *)gStuff->platformData)->hwnd;
-	#endif
-
-		// DDS_InUI is responsible for not popping a dialog if the user
-		// didn't request it.  It still has to set the read settings from preferences though.
-		bool result = DDS_InUI(&params, plugHndl, hwnd);
+		gStuff->planes = (dds_file.has_alpha() ? 4 : 3);
 		
-		if(result)
+		
+		bool reverting = ReadParams(globals, &gInOptions);
+		
+		if(!reverting && gStuff->hostSig != 'FXTC')
 		{
-			gInOptions.alpha = params.alpha;
+			DDS_InUI_Data params;
 			
-			WriteParams(globals, &gInOptions);
-		}
-		else
-			gResult = userCanceledErr;
-	}
-
-
-	if(gResult == noErr)
-	{
-		ps_data_stream ps_stream(gStuff->dataFork, crnlib::cDataStreamReadable | crnlib::cDataStreamSeekable);
-
-		crnlib::data_stream_serializer serializer(&ps_stream);
-
-		crnlib::mipmapped_texture dds_file;
-
-		if( dds_file.read_dds(serializer) )
-		{
-			gStuff->imageMode = plugInModeRGBColor;
-			gStuff->depth = 8;
-
-			gStuff->imageSize.h = gStuff->imageSize32.h = dds_file.get_width();
-			gStuff->imageSize.v = gStuff->imageSize32.v = dds_file.get_height();
+		#ifdef __PIMac__
+			const char * const plugHndl = "com.fnordware.Photoshop.DDS";
+			const void *hwnd = globals;
+		#else
+			const void * const plugHndl = hDllInstance;
+			HWND hwnd = (HWND)((PlatformData *)gStuff->platformData)->hwnd;
+		#endif
 			
-			gStuff->planes = (dds_file.has_alpha() ? 4 : 3);
+			// DDS_InUI is responsible for not popping a dialog if the user
+			// didn't request it.  It still has to set the read settings from preferences though.
+			bool result = DDS_InUI(&params, dds_file.has_alpha(), plugHndl, hwnd);
 			
-			if(gInOptions.alpha == DDS_ALPHA_TRANSPARENCY && gStuff->planes == 4)
+			if(result)
 			{
-				gStuff->transparencyPlane = gStuff->planes - 1;
-				gStuff->transparencyMatting = 0;
+				gInOptions.alpha = params.alpha;
+				
+				WriteParams(globals, &gInOptions);
 			}
-
-			assert(dds_file.get_num_faces() == 1);
+			else
+				gResult = userCanceledErr;
 		}
-		else
-			HandleError(globals, dds_file);
+		
+		if(gInOptions.alpha == DDS_ALPHA_TRANSPARENCY && gStuff->planes == 4)
+		{
+			gStuff->transparencyPlane = gStuff->planes - 1;
+			gStuff->transparencyMatting = 0;
+		}
+
+		assert(dds_file.get_num_faces() == 1);
 	}
+	else
+		HandleError(globals, dds_file);
 }
 
 
@@ -598,7 +595,7 @@ static void DoOptionsStart(GPtr globals)
 									DIALOG_FILTER_MITCHELL);
 	
 	#ifdef __PIMac__
-		const char * const plugHndl = "com.fnordware.Photoshop.WebP";
+		const char * const plugHndl = "com.fnordware.Photoshop.DDS";
 		const void *hwnd = globals;	
 	#else
 		const void * const plugHndl = hDllInstance;

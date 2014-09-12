@@ -90,6 +90,7 @@ typedef struct {
 bool
 DDS_InUI(
 	DDS_InUI_Data		*params,
+	bool				has_alpha,
 	const void			*plugHndl,
 	const void			*mwnd);
 
