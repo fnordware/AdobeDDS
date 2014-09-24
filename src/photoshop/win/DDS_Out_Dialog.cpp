@@ -43,11 +43,8 @@
 #include "DDS_version.h"
 
 #include <Windows.h>
-#include <commctrl.h>
 
 #include <assert.h>
-
-extern HINSTANCE hDllInstance;
 
 enum {
 	OUT_noUI = -1,
@@ -294,7 +291,7 @@ DDS_OutUI(
 		assert(g_alpha_name == NULL);
 	}
 
-	int status = DialogBox(hDllInstance, (LPSTR)"OUT_DIALOG", (HWND)mwnd, (DLGPROC)DialogProc);
+	int status = DialogBox((HINSTANCE)plugHndl, (LPSTR)"OUT_DIALOG", (HWND)mwnd, (DLGPROC)DialogProc);
 
 
 	if(g_item_clicked == OUT_OK)
@@ -354,6 +351,6 @@ DDS_About(
 {
 	g_plugin_version_string = plugin_version_string;
 
-	int status = DialogBox(hDllInstance, (LPSTR)"ABOUT_DIALOG", (HWND)mwnd, (DLGPROC)AboutProc);
+	int status = DialogBox((HINSTANCE)plugHndl, (LPSTR)"ABOUT_DIALOG", (HWND)mwnd, (DLGPROC)AboutProc);
 }
 

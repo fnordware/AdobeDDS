@@ -42,9 +42,6 @@
 #include "DDS_UI.h"
 
 #include <Windows.h>
-#include <commctrl.h>
-
-extern HINSTANCE hDllInstance;
 
 enum {
 	IN_noUI = -1,
@@ -198,7 +195,7 @@ DDS_InUI(
 
 	if((g_autoD && has_alpha) || shift_key)
 	{
-		int status = DialogBox(hDllInstance, (LPSTR)"IN_DIALOG", (HWND)mwnd, (DLGPROC)DialogProc);
+		int status = DialogBox((HINSTANCE)plugHndl, (LPSTR)"IN_DIALOG", (HWND)mwnd, (DLGPROC)DialogProc);
 
 		if(g_item_clicked == IN_OK)
 		{

@@ -52,15 +52,8 @@
 #include <mach/mach.h>
 #endif
 
-//using namespace crnlib;
-
-// globals needed by a bunch of Photoshop SDK routines
-#ifdef __PIWin__
-HINSTANCE hDllInstance = NULL;
-#endif
-
-SPBasicSuite * sSPBasic = NULL;
-SPPluginRef gPlugInRef = NULL;
+// global needed by a bunch of Photoshop SDK routines
+SPBasicSuite *sSPBasic = NULL;
 
 
 static void DoAbout(AboutRecordPtr aboutP)
@@ -69,7 +62,7 @@ static void DoAbout(AboutRecordPtr aboutP)
 	const char * const plugHndl = "com.fnordware.Photoshop.DDS";
 	const void *hwnd = aboutP;	
 #else
-	const char * const plugHndl = NULL;
+	const HINSTANCE const plugHndl = GetDLLInstance((SPPluginRef)aboutP->plugInRef);
 	HWND hwnd = (HWND)((PlatformData *)aboutP->platformData)->hwnd;
 #endif
 
@@ -464,7 +457,7 @@ static void DoReadStart(GPtr globals)
 			const char * const plugHndl = "com.fnordware.Photoshop.DDS";
 			const void *hwnd = globals;
 		#else
-			const void * const plugHndl = hDllInstance;
+			const HINSTANCE const plugHndl = GetDLLInstance((SPPluginRef)gStuff->plugInRef);
 			HWND hwnd = (HWND)((PlatformData *)gStuff->platformData)->hwnd;
 		#endif
 			
@@ -598,7 +591,7 @@ static void DoOptionsStart(GPtr globals)
 		const char * const plugHndl = "com.fnordware.Photoshop.DDS";
 		const void *hwnd = globals;	
 	#else
-		const void * const plugHndl = hDllInstance;
+		const HINSTANCE const plugHndl = GetDLLInstance((SPPluginRef)gStuff->plugInRef);
 		HWND hwnd = (HWND)((PlatformData *)gStuff->platformData)->hwnd;
 	#endif
 
@@ -817,12 +810,10 @@ static void DoWriteStart(GPtr globals)
 
 	if(!use_alpha)
 	{
-		// OK, these namespaces are getting a little annoying
-		const crnlib::pixel_format_helpers::component_flags rgb_only =
-							static_cast<crnlib::pixel_format_helpers::component_flags>(
-								crnlib::pixel_format_helpers::cCompFlagRValid |
-								crnlib::pixel_format_helpers::cCompFlagGValid |
-								crnlib::pixel_format_helpers::cCompFlagBValid);
+		using namespace crnlib::pixel_format_helpers;
+
+		const component_flags rgb_only =
+						static_cast<component_flags>(cCompFlagRValid | cCompFlagGValid | cCompFlagBValid);
 
 		img->set_comp_flags(rgb_only);
 	}
@@ -950,25 +941,12 @@ DLLExport MACPASCAL void PluginMain(const short selector,
 	{
 		sSPBasic = ((AboutRecordPtr)formatParamBlock)->sSPBasic;
 
-	#ifdef __PIWin__
-		if(hDllInstance == NULL)
-			hDllInstance = GetDLLInstance((SPPluginRef)((AboutRecordPtr)formatParamBlock)->plugInRef);
-	#endif
-
 		DoAbout((AboutRecordPtr)formatParamBlock);
 	}
 	else
 	{
 		sSPBasic = formatParamBlock->sSPBasic;  //thanks Tom
-		
-		gPlugInRef = (SPPluginRef)formatParamBlock->plugInRef;
-		
-	#ifdef __PIWin__
-		if(hDllInstance == NULL)
-			hDllInstance = GetDLLInstance((SPPluginRef)formatParamBlock->plugInRef);
-	#endif
-
-		
+				
 	 	static const FProc routineForSelector [] =
 		{
 			/* formatSelectorAbout  				DoAbout, */
@@ -1072,7 +1050,5 @@ DLLExport MACPASCAL void PluginMain(const short selector,
 				PIUnlockHandle((Handle)*data);
 			}
 		}
-		
-	
-	} // about selector special		
+	}
 }
