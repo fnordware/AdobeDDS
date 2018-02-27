@@ -51,7 +51,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\src\photoshop;..\..\ext\crunch\inc;..\..\ext\crunch\crnlib;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\samplecode\Common\Includes;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\photoshopapi\Photoshop;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\photoshopapi\PICA_SP;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\photoshopapi\ADM"
+				AdditionalIncludeDirectories="..\..\src\photoshop;..\..\ext\crunch_xcode\inc;..\..\ext\crunch_xcode\crnlib;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\samplecode\Common\Includes;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\photoshopapi\Photoshop;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\photoshopapi\PICA_SP;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\photoshopapi\ADM"
 				PreprocessorDefinitions="ISOLATION_AWARE_ENABLED=1;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_DEPRECATE;WIN32=1;_WIN32;_WINDOWS;__PI__;PS_CS4_SDK"
 				RuntimeLibrary="1"
 				RuntimeTypeInfo="true"
@@ -144,7 +144,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\src\photoshop;..\..\ext\crunch\inc;..\..\ext\crunch\crnlib;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\samplecode\Common\Includes;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\photoshopapi\Photoshop;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\photoshopapi\PICA_SP;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\photoshopapi\ADM"
+				AdditionalIncludeDirectories="..\..\src\photoshop;..\..\ext\crunch_xcode\inc;..\..\ext\crunch_xcode\crnlib;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\samplecode\Common\Includes;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\photoshopapi\Photoshop;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\photoshopapi\PICA_SP;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\photoshopapi\ADM"
 				PreprocessorDefinitions="ISOLATION_AWARE_ENABLED=1;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_DEPRECATE;WIN32=1;_WIN32;_WINDOWS;__PI__;PS_CS4_SDK;"
 				RuntimeLibrary="1"
 				RuntimeTypeInfo="true"
@@ -237,7 +237,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..\..\src\photoshop;..\..\ext\crunch\inc;..\..\ext\crunch\crnlib;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\samplecode\Common\Includes;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\photoshopapi\Photoshop;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\photoshopapi\PICA_SP;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\photoshopapi\ADM"
+				AdditionalIncludeDirectories="..\..\src\photoshop;..\..\ext\crunch_xcode\inc;..\..\ext\crunch_xcode\crnlib;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\samplecode\Common\Includes;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\photoshopapi\Photoshop;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\photoshopapi\PICA_SP;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\photoshopapi\ADM"
 				PreprocessorDefinitions="ISOLATION_AWARE_ENABLED=1;NDEBUG;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_DEPRECATE;WIN32=1;_WIN32;_WINDOWS;__PI__;PS_CS4_SDK;$(NOINHERIT)"
 				RuntimeLibrary="0"
 				RuntimeTypeInfo="true"
@@ -331,7 +331,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..\..\src\photoshop;..\..\ext\crunch\inc;..\..\ext\crunch\crnlib;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\samplecode\Common\Includes;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\photoshopapi\Photoshop;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\photoshopapi\PICA_SP;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\photoshopapi\ADM"
+				AdditionalIncludeDirectories="..\..\src\photoshop;..\..\ext\crunch_xcode\inc;..\..\ext\crunch_xcode\crnlib;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\samplecode\Common\Includes;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\photoshopapi\Photoshop;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\photoshopapi\PICA_SP;..\..\ext\adobe_photoshop_cs5_sdk_win\pluginsdk\photoshopapi\ADM"
 				PreprocessorDefinitions="ISOLATION_AWARE_ENABLED=1;NDEBUG;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_DEPRECATE;WIN32=1;_WIN32;_WINDOWS;__PI__;PS_CS4_SDK;$(NOINHERIT)"
 				RuntimeLibrary="0"
 				RuntimeTypeInfo="true"

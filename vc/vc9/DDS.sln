@@ -6,7 +6,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DDS", "DDS_Photoshop.vcproj
 		{CF2E70E8-7133-4D96-92C7-68BB406C0664} = {CF2E70E8-7133-4D96-92C7-68BB406C0664}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "crnlib", "..\..\ext\crunch\crnlib\crnlib.2008.vcproj", "{CF2E70E8-7133-4D96-92C7-68BB406C0664}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "crnlib", "ext\crnlib.vcproj", "{CF2E70E8-7133-4D96-92C7-68BB406C0664}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
