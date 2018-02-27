@@ -57,6 +57,7 @@ typedef enum {
 	IBOutlet NSMatrix *alphaMatrix;
 	IBOutlet NSButton *premultiplyCheck;
 	IBOutlet NSBox *alphaBox;
+	IBOutlet NSButton *cubemapCheck;
 	IBOutlet NSButton *ok_button;
 	IBOutlet NSButton *cancel_button;
 	DialogResult theResult;
@@ -66,6 +67,7 @@ typedef enum {
 	filter:(Dialog_Filter)filter
 	alpha:(DialogAlpha)alpha
 	premultiply:(BOOL)premultiply
+	cube_map:(BOOL)cube_map
 	have_transparency:(BOOL)has_transparency
 	alpha_name:(const char *)alphaName
 	ae_ui:(BOOL)ae_ui;
@@ -84,5 +86,6 @@ typedef enum {
 - (Dialog_Filter)getFilter;
 - (DialogAlpha)getAlpha;
 - (BOOL)getPremultiply;
+- (BOOL)getCubeMap;
 
 @end

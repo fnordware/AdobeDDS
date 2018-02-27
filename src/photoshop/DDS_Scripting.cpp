@@ -123,6 +123,11 @@ Boolean ReadScriptParamsOnWrite(GPtr globals)
 							PIGetEnum(token, &ostypeStoreValue);
 							gOptions.filter = KeyToFilter(ostypeStoreValue);
 							break;
+
+					case keyDDScubemap:
+							PIGetBool(token, &boolStoreValue);
+							gOptions.cubemap = boolStoreValue;
+							break;
 				}
 			}
 
@@ -202,6 +207,8 @@ OSErr WriteScriptParamsOnWrite(GPtr globals)
 
 			if(gOptions.mipmap)
 				PIPutEnum(token, keyDDSfilter, typeFilter, FilterToKey(gOptions.filter));
+			
+			PIPutBool(token, keyDDScubemap, gOptions.cubemap);
 				
 			gotErr = CloseWriter(&token); /* closes and sets dialog optional */
 			/* done.  Now pass handle on to Photoshop */

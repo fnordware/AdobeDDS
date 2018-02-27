@@ -91,6 +91,7 @@ static void InitGlobals(Ptr globalPtr)
 	gOptions.premultiply		= FALSE;
 	gOptions.mipmap				= FALSE;
 	gOptions.filter				= DDS_FILTER_MITCHELL;
+	gOptions.cubemap			= FALSE;
 }
 
 
@@ -422,6 +423,19 @@ static void HandleError(GPtr globals, const crnlib::mipmapped_texture &dds_file)
 }
 
 
+static void HandleError(GPtr globals, const char *errStr)
+{
+	const int size = crnlib::math::minimum<int>(255, strlen(errStr));
+
+	Str255 p_str;
+	p_str[0] = size;
+	strncpy((char *)&p_str[1], errStr, size);
+
+	PIReportError(p_str);
+	gResult = errReportString;
+}
+
+
 static void DoReadPrepare(GPtr globals)
 {
 	gStuff->maxData = 0;
@@ -441,8 +455,16 @@ static void DoReadStart(GPtr globals)
 		gStuff->imageMode = plugInModeRGBColor;
 		gStuff->depth = 8;
 
-		gStuff->imageSize.h = gStuff->imageSize32.h = dds_file.get_width();
-		gStuff->imageSize.v = gStuff->imageSize32.v = dds_file.get_height();
+		if(dds_file.determine_texture_type() == crnlib::cTextureTypeCubemap)
+		{
+			gStuff->imageSize.h = gStuff->imageSize32.h = dds_file.get_width() * 3;
+			gStuff->imageSize.v = gStuff->imageSize32.v = dds_file.get_height() * 4;
+		}
+		else
+		{
+			gStuff->imageSize.h = gStuff->imageSize32.h = dds_file.get_width();
+			gStuff->imageSize.v = gStuff->imageSize32.v = dds_file.get_height();
+		}
 		
 		gStuff->planes = (dds_file.has_alpha() ? 4 : 3);
 		
@@ -498,6 +520,13 @@ static void DoReadContinue(GPtr globals)
 
 	if( dds_file.read_dds(serializer) )
 	{
+		if(dds_file.determine_texture_type() == crnlib::cTextureTypeCubemap)
+		{
+			const bool converted = dds_file.cubemap_to_vertical_cross();
+			
+			assert(converted);
+		}
+		
 		crnlib::image_u8 img(dds_file.get_width(), dds_file.get_height());
 
 		crnlib::image_u8 *img_ptr = dds_file.get_level_image(0, 0, img);
@@ -586,6 +615,8 @@ static void DoOptionsStart(GPtr globals)
 									gOptions.filter == DDS_FILTER_MITCHELL ? DIALOG_FILTER_MITCHELL :
 									gOptions.filter == DDS_FILTER_KAISER ? DIALOG_FILTER_KAISER :
 									DIALOG_FILTER_MITCHELL);
+								
+		params.cubemap			= gOptions.cubemap;
 	
 	#ifdef __PIMac__
 		const char * const plugHndl = "com.fnordware.Photoshop.DDS";
@@ -626,6 +657,8 @@ static void DoOptionsStart(GPtr globals)
 										params.filter == DIALOG_FILTER_MITCHELL ? DDS_FILTER_MITCHELL :
 										params.filter == DIALOG_FILTER_KAISER ? DDS_FILTER_KAISER :
 										DDS_FILTER_MITCHELL);
+										
+			gOptions.cubemap		= params.cubemap;
 			
 
 			WriteParams(globals, &gOptions);
@@ -869,6 +902,24 @@ static void DoWriteStart(GPtr globals)
 	{
 		dds_file.assign(img);
 		
+		if(gOptions.cubemap)
+		{
+			if(dds_file.is_vertical_cross())
+			{
+				const bool cubed = dds_file.vertical_cross_to_cubemap();
+				
+				if(!cubed && gStuff->hostSig != 'FXTC')
+					HandleError(globals, "Failed to convert vertical cross to cube map");
+			}
+			else if(gStuff->hostSig != 'FXTC')
+			{
+				HandleError(globals, "Image does not appear to be vertical cross, required for a cube map");
+			}
+		}
+	}
+		
+	if(gResult == noErr)
+	{
 		if(gOptions.mipmap)
 		{
 			crnlib::mipmapped_texture::generate_mipmap_params mipmap_p;

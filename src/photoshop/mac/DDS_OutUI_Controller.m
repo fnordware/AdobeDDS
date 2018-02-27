@@ -47,9 +47,10 @@
 	filter:(Dialog_Filter)filter
 	alpha:(DialogAlpha)alpha
 	premultiply:(BOOL)premultiply
+	cube_map:(BOOL)cube_map
 	have_transparency:(BOOL)has_transparency
 	alpha_name:(const char *)alphaName
-	ae_ui:(BOOL)ae_ui;
+	ae_ui:(BOOL)ae_ui
 {
 	self = [super init];
 	
@@ -98,6 +99,9 @@
 	
 	
 	[premultiplyCheck setState:(premultiply ? NSOnState : NSOffState)];
+	
+	
+	[cubemapCheck setState:(cube_map ? NSOnState : NSOffState)];
 
 
 	[self trackMipmap:self];
@@ -112,13 +116,16 @@
 		const int shrink = 170;
 		
 		NSRect window_frame = [theWindow frame];
+		NSRect cube_map_frame = [cubemapCheck frame];
 		NSRect ok_frame = [ok_button frame];
 		NSRect cancel_frame = [cancel_button frame];
 		
 		window_frame.size.height -= shrink;
+		cube_map_frame.origin.y += shrink;
 		ok_frame.origin.y += shrink;
 		cancel_frame.origin.y += shrink;
 		
+		[cubemapCheck setFrame:cube_map_frame];
 		[ok_button setFrame:ok_frame];
 		[cancel_button setFrame:cancel_frame];
 		[theWindow setFrame:window_frame display:TRUE];
@@ -187,6 +194,10 @@
 
 - (BOOL)getPremultiply {
 	return ([premultiplyCheck state] == NSOnState);
+}
+
+- (BOOL)getCubeMap {
+	return ([cubemapCheck state] == NSOnState);
 }
 
 @end

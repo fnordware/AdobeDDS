@@ -53,6 +53,7 @@
 #define keyDDSpremult			'DDSp'
 #define keyDDSmipmap			'DDSm'
 #define keyDDSfilter			'DDSq'
+#define keyDDScubemap			'DDSc'
 
 #define typeDDSformat			'DXTn'
 

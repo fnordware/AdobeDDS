@@ -41,13 +41,13 @@
 #define __DDS_Version_H__
 
 #define DDS_Major_Version 0
-#define DDS_Minor_Version 5
-#define DDS_Version_String "0.5"
+#define DDS_Minor_Version 6
+#define DDS_Version_String "0.6"
 #define DDS_Build_Date __DATE__
-#define DDS_Build_Date_Manual "23 September 2014"
-#define DDS_Build_Complete_Manual "v0.5 - " DDS_Build_Date
-#define DDS_Copyright_Year "2014"
-#define DDS_Build_Year "2014"
+#define DDS_Build_Date_Manual "25 February 2018"
+#define DDS_Build_Complete_Manual "v0.6 - " DDS_Build_Date
+#define DDS_Copyright_Year "2018"
+#define DDS_Build_Year "2018"
 
 #define DDS_Description "A file format module for using DDS files in Adobe Photoshop."
 

@@ -77,6 +77,7 @@ typedef struct {
 	bool				premultiply;
 	bool				mipmap;
 	Dialog_Filter		filter;
+	bool				cubemap;
 } DDS_OutUI_Data;
 
 // DDS UI

@@ -168,6 +168,7 @@ DDS_OutUI(
 																		  filter: params->filter
 																		   alpha: params->alpha
 																	 premultiply: params->premultiply
+																		cube_map: params->cubemap
 															   have_transparency: have_transparency
 																	  alpha_name: alpha_name
 																		   ae_ui: ae_ui ];
@@ -200,6 +201,7 @@ DDS_OutUI(
 					params->filter			= [ui_controller getFilter];
 					params->alpha			= [ui_controller getAlpha];
 					params->premultiply		= [ui_controller getPremultiply];
+					params->cubemap			= [ui_controller getCubeMap];
 					
 					result = true;
 				}

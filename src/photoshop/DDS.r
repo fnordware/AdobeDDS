@@ -245,6 +245,12 @@ resource 'aete' (ResourceID, plugInName " dictionary", purgeable)
 				typeEnumerated,
 				"Mipmap filter",
 				flagsSingleProperty,
+
+				"Cube Map",
+				keyDDScubemap,
+				typeBoolean,
+				"Convert vertical cross to cube map",
+				flagsSingleProperty,
 			},
 			{}, /* elements (not supported) */
 			/* class descriptions */

@@ -102,7 +102,8 @@ typedef struct {
 	Boolean			premultiply;
 	Boolean			mipmap;
 	DDS_Filter		filter;
-	uint8			reserved[246];
+	Boolean			cubemap;
+	uint8			reserved[245];
 	
 } DDS_outData;
 
