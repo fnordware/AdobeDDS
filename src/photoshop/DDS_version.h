@@ -44,7 +44,7 @@
 #define DDS_Minor_Version 6
 #define DDS_Version_String "0.6"
 #define DDS_Build_Date __DATE__
-#define DDS_Build_Date_Manual "25 February 2018"
+#define DDS_Build_Date_Manual "27 February 2018"
 #define DDS_Build_Complete_Manual "v0.6 - " DDS_Build_Date
 #define DDS_Copyright_Year "2018"
 #define DDS_Build_Year "2018"

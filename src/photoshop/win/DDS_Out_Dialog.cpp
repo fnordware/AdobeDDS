@@ -58,7 +58,8 @@ enum {
 	OUT_Alpha_Radio_Transparency,
 	OUT_Alpha_Radio_Channel,
 	OUT_Premultiply_Check,
-	OUT_Alpha_Frame
+	OUT_Alpha_Frame,
+	OUT_CubeMap_Check
 };
 
 // sensible Win macros
@@ -78,6 +79,7 @@ static DialogAlpha			g_alpha = DIALOG_ALPHA_NONE;
 static bool					g_premultiply = false;
 static bool					g_mipmap = false;
 static Dialog_Filter		g_filter = DIALOG_FILTER_MITCHELL;
+static bool					g_cubemap = false;
 
 static bool					g_have_transparency = false;
 static const char			*g_alpha_name = NULL;
@@ -184,7 +186,9 @@ static BOOL CALLBACK DialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARA
 						g_alpha == DIALOG_ALPHA_TRANSPARENCY ? OUT_Alpha_Radio_Transparency :
 						g_alpha == DIALOG_ALPHA_CHANNEL ? OUT_Alpha_Radio_Channel :
 						OUT_Alpha_Radio_None), TRUE);
-	
+			
+			SET_CHECK(OUT_CubeMap_Check, g_cubemap);
+
 			TrackAlpha(hwndDlg);
 			TrackMipmap(hwndDlg);
 
@@ -193,21 +197,25 @@ static BOOL CALLBACK DialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARA
 				for(int i = OUT_Alpha_Radio_None; i <= OUT_Alpha_Frame; i++)
 					SHOW_ITEM(i, false);
 
-				WINDOWPLACEMENT winPlace, okPlace, cancelPlace;
-				winPlace.length = okPlace.flags = cancelPlace.length = sizeof(WINDOWPLACEMENT);
+				WINDOWPLACEMENT winPlace, cubemapPlace, okPlace, cancelPlace;
+				winPlace.length = cubemapPlace.length = okPlace.length = cancelPlace.length = sizeof(WINDOWPLACEMENT);
 
 				GetWindowPlacement(hwndDlg, &winPlace);
+				GetWindowPlacement(GET_ITEM(OUT_CubeMap_Check), &cubemapPlace);
 				GetWindowPlacement(GET_ITEM(OUT_OK), &okPlace);
 				GetWindowPlacement(GET_ITEM(OUT_Cancel), &cancelPlace);
 
 				const int resize = 170;
 
 				winPlace.rcNormalPosition.bottom -= resize;
+				cubemapPlace.rcNormalPosition.top -= resize;
+				cubemapPlace.rcNormalPosition.bottom -= resize;
 				okPlace.rcNormalPosition.top -= resize;
 				okPlace.rcNormalPosition.bottom -= resize;
 				cancelPlace.rcNormalPosition.top -= resize;
 				cancelPlace.rcNormalPosition.bottom -= resize;
 
+				SetWindowPlacement(GET_ITEM(OUT_CubeMap_Check), &cubemapPlace);
 				SetWindowPlacement(GET_ITEM(OUT_Cancel), &cancelPlace);
 				SetWindowPlacement(GET_ITEM(OUT_OK), &okPlace);
 				SetWindowPlacement(hwndDlg, &winPlace);
@@ -246,6 +254,8 @@ static BOOL CALLBACK DialogProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARA
 					cur_sel = SendMessage(f_menu,(UINT)CB_GETCURSEL, (WPARAM)0, (LPARAM)0);
 					g_filter = (Dialog_Filter)SendMessage(f_menu, (UINT)CB_GETITEMDATA, (WPARAM)cur_sel, (LPARAM)0);
 
+					g_cubemap = GET_CHECK(OUT_CubeMap_Check);
+
 					EndDialog(hwndDlg, 0);
 					return TRUE;
 				}while(0);
@@ -279,6 +289,7 @@ DDS_OutUI(
 	g_premultiply	= params->premultiply;
 	g_mipmap		= params->mipmap;
 	g_filter		= params->filter;
+	g_mipmap		= params->mipmap;
 	
 	g_have_transparency = have_transparency;
 	g_alpha_name = alpha_name;
@@ -301,6 +312,7 @@ DDS_OutUI(
 		params->premultiply		= g_premultiply;
 		params->mipmap			= g_mipmap;
 		params->filter			= g_filter;
+		params->cubemap			= g_cubemap;
 
 		return true;
 	}
